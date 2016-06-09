@@ -1,0 +1,14 @@
+# Ruby Gem
+/.bundle/
+/.yardoc
+/Gemfile.lock
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+
+# Idea files
+.idea*
+*.iml
