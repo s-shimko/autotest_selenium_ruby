@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/autotest_selenium_ruby.iml" filepath="$PROJECT_DIR$/autotest_selenium_ruby.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test_selenium_ruby.iml" filepath="$PROJECT_DIR$/test_selenium_ruby.iml" />
     </modules>
   </component>
 </project>

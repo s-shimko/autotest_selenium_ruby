@@ -1,9 +1,9 @@
 require 'test/unit'
 require 'selenium-webdriver'
 
-class Task01 < Test::Unit::TestCase
+class TestRedmine < Test::Unit::TestCase
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for :chrome
     @wait = Selenium::WebDriver::Wait.new(:timeout => 5)
     @driver.manage.timeouts.implicit_wait = 5
     @login = 'testlogin_1'
