@@ -15,25 +15,25 @@ class TestRedmine < Test::Unit::TestCase
 
   end
 
-  def test_01
-    # registration
-    login
-    logout
-    login
-    change_pass
-    new_project
-    logout
-    # registration_second_user
-    login
-    add_new_user_to_project
-    edit_user_roles
-    create_project_version
-    create_issues
+  def test_main
+    #registration
+    login_test
+    logout_test
+    login_test
+    change_pass_test
+    new_project_test
+    logout_test
+    # registration_second_user_test
+    login_test
+    add_new_user_to_project_test
+    edit_user_roles_test
+    create_project_version_test
+    create_issues_test
     teardown
   end
 
 
-  def registration
+  def registration_test
     @driver.navigate.to 'http://demo.redmine.org'
     @driver.find_element(:class, 'register').click
     @driver.find_element(:id, 'user_login').send_keys @login
@@ -64,7 +64,7 @@ class TestRedmine < Test::Unit::TestCase
     assert_equal(expected_text, actual_text)
   end
 
-  def login
+  def login_test
     @driver.navigate.to 'http://demo.redmine.org'
     @driver.find_element(:class, 'login').displayed?
     @driver.find_element(:class, 'login').click
@@ -73,12 +73,12 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:name, 'login').click
   end
 
-  def logout
+  def logout_test
     @driver.find_element(:class, 'logout').click
   end
 
 
-  def change_pass
+  def change_pass_test
     @driver.find_element(:class, 'my-account').click
     @driver.find_element(:class, 'icon-passwd').click
     @driver.find_element(:id, 'password').send_keys @pass
@@ -87,7 +87,7 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:name, 'commit').click
   end
 
-  def new_project
+  def new_project_test
     @driver.find_element(:class, 'projects').click
     @driver.find_element(:class, 'icon-add').click
     @driver.find_element(:id, 'project_name').send_keys @project
@@ -96,10 +96,10 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:name, 'commit').click
   end
 
-  def add_new_user_to_project
+  def add_new_user_to_project_test
     @driver.find_element(:class, 'projects').click
     @driver.find_element(:id, "project_quick_jump_box").click
-    @driver.find_element(:css, "option[value='/projects/test_project3007?jump=overview']").click
+    @driver.find_element(:xpath, "//option[.='0test_project3']").click
     @driver.find_element(:class, "settings").click
     @driver.find_element(:id, 'tab-members').click
     @driver.find_element(:class, 'icon-add').click
@@ -109,10 +109,10 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:id, 'member-add-submit').click
   end
 
-  def edit_user_roles
+  def edit_user_roles_test
     @driver.find_element(:class, 'projects').click
     @driver.find_element(:id, "project_quick_jump_box").click
-    @driver.find_element(:css, "option[value='/projects/test_project3007?jump=overview']").click
+    @driver.find_element(:xpath, "//option[.='0test_project3']").click
     @driver.find_element(:class, "settings").click
     @driver.find_element(:id, 'tab-members').click
     @driver.find_element(:xpath, "(//a[contains(.,'Редактировать')])[2]").click
@@ -121,10 +121,10 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:xpath, "(//input[@class='small'][@type='submit'])[2]").click
   end
 
-  def create_project_version
+  def create_project_version_test
     @driver.find_element(:class, 'projects').click
     @driver.find_element(:id, "project_quick_jump_box").click
-    @driver.find_element(:css, "option[value='/projects/test_project3007?jump=overview']").click
+    @driver.find_element(:xpath, "//option[.='0test_project3']").click
     @driver.find_element(:class, "settings").click
     @driver.find_element(:id, 'tab-versions').click
     @driver.find_element(:xpath, "//a[contains(.,'Новая версия')]").click
@@ -132,10 +132,10 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:name, 'commit').click
   end
 
-  def create_issues
+  def create_issues_test
     @driver.find_element(:class, 'projects').click
     @driver.find_element(:id, "project_quick_jump_box").click
-    @driver.find_element(:css, "option[value='/projects/test_project3007?jump=overview']").click
+    @driver.find_element(:xpath, "//option[.='0test_project3']").click
     @driver.find_element(:class, 'new-issue').click
     @driver.find_element(:id, 'issue_tracker_id').click
     @driver.find_element(:xpath, '//option[contains(., "Bug")]').click
@@ -150,16 +150,9 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:name, 'commit').click
     @driver.find_element(:class, 'issues').click
 # verify issues presence
-    expected_xpath = @driver.find_element(:xpath, '(//a[contains(.,"New_issue_bug")])[1]')
-    actual_xpath = @driver.find_element(:xpath, '(//a[contains(.,"New_issue_bug")])[1]')
-    assert_equal(expected_xpath, actual_xpath)
-    expected_xpath = @driver.find_element(:xpath, '(//a[contains(.,"New_issue_feature")])[1]')
-    actual_xpath = @driver.find_element(:xpath, '(//a[contains(.,"New_issue_feature")])[1]')
-    assert_equal(expected_xpath, actual_xpath)
-    expected_xpath = @driver.find_element(:xpath, '(//a[contains(.,"New_issue_support")])[1]')
-    actual_xpath = @driver.find_element(:xpath, '(//a[contains(.,"New_issue_support")])[1]')
-    assert_equal(expected_xpath, actual_xpath)
-
+    assert(@driver.find_element(:xpath, '(//a[contains(.,"New_issue_bug")])[1]').dispalyed?)
+    assert(@driver.find_element(:xpath, '(//a[contains(.,"New_issue_feature")])[1]').dispalyed?)
+    assert(@driver.find_element(:xpath, '(//a[contains(.,"New_issue_support")])[1]').dispalyed?)
   end
 
 
