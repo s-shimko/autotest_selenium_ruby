@@ -4,7 +4,7 @@ require 'selenium-webdriver'
 class TestRedmine < Test::Unit::TestCase
 
   def setup
-    @driver = Selenium::WebDriver.for :chrome
+    @driver = Selenium::WebDriver.for :firefox
     @wait = Selenium::WebDriver::Wait.new(:timeout => 5)
     @driver.manage.timeouts.implicit_wait = 5
 
@@ -42,20 +42,20 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:id, 'user_lastname').send_keys last_name
     @driver.find_element(:id, 'user_mail').send_keys(login + '@dd.dd')
     @driver.find_element(:name, 'commit').click
+
+  end
+
+  def reg1_reg2_test
+    registration(@login,'123','123')
+    registration(@login2,'second_user','two')
     expected_text = 'Ваша учётная запись активирована. Вы можете войти.'
     actual_text = @driver.find_element(:id, 'flash_notice').text
     assert_equal(expected_text, actual_text)
-
     logout
   end
 
-  def test_01_reg1_reg2
+  def change_pass_test
     registration(@login,'123','123')
-    registration(@login2,'second_user','two')
-  end
-
-  def test_02_change_pass
-    @driver.navigate.to 'http://demo.redmine.org'
     @driver.find_element(:class, 'login').displayed?
     @driver.find_element(:class, 'login').click
     @driver.find_element(:id, 'username').send_keys @login
@@ -69,7 +69,8 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:name, 'commit').click
   end
 
-  def test_03_new_project
+  def new_project_test
+    registration(@login,'123','123')
     login
     @driver.find_element(:class, 'projects').click
     @driver.find_element(:class, 'icon-add').click
