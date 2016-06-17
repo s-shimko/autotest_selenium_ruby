@@ -8,9 +8,9 @@ class TestRedmine < Test::Unit::TestCase
     @wait = Selenium::WebDriver::Wait.new(:timeout => 5)
     @driver.manage.timeouts.implicit_wait = 5
 
-    @login = 'testlogin9'
-    @login2 = 'testlogin9'
-    @project = 'test_project9'
+    @login = ('testlogin1' + rand(999).to_s)
+    @login2 = ('testlogin2' + rand(999).to_s)
+    @project = ('test_project' + rand(999).to_s)
 
     @pass = '1234'
     @npass = '1111'
@@ -18,21 +18,21 @@ class TestRedmine < Test::Unit::TestCase
 
   end
 
-  def login
+  def login_test
     @driver.navigate.to 'http://demo.redmine.org'
     @driver.find_element(:class, 'login').displayed?
     @driver.find_element(:class, 'login').click
     @driver.find_element(:id, 'username').send_keys @login
-    @driver.find_element(:id, 'password').send_keys @npass
+    @driver.find_element(:id, 'password').send_keys @pass
     @driver.find_element(:name, 'login').click
   end
 
-  def logout
+  def logout_test
     @driver.navigate.to 'http://demo.redmine.org'
     @driver.find_element(:class, 'logout').click
   end
 
-  def registration(login,first_name,last_name)
+  def registration_test(login, first_name, last_name)
     @driver.navigate.to 'http://demo.redmine.org'
     @driver.find_element(:class, 'register').click
     @driver.find_element(:id, 'user_login').send_keys login
@@ -42,35 +42,9 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:id, 'user_lastname').send_keys last_name
     @driver.find_element(:id, 'user_mail').send_keys(login + '@dd.dd')
     @driver.find_element(:name, 'commit').click
-    expected_text = 'Ваша учётная запись активирована. Вы можете войти.'
-    actual_text = @driver.find_element(:id, 'flash_notice').text
-    assert_equal(expected_text, actual_text)
-
-    logout
   end
 
-  def test_01_reg1_reg2
-    registration(@login,'123','123')
-    registration(@login2,'second_user','two')
-  end
-
-  def test_02_change_pass
-    @driver.navigate.to 'http://demo.redmine.org'
-    @driver.find_element(:class, 'login').displayed?
-    @driver.find_element(:class, 'login').click
-    @driver.find_element(:id, 'username').send_keys @login
-    @driver.find_element(:id, 'password').send_keys @pass
-    @driver.find_element(:name, 'login').click
-    @driver.find_element(:class, 'my-account').click
-    @driver.find_element(:class, 'icon-passwd').click
-    @driver.find_element(:id, 'password').send_keys @pass
-    @driver.find_element(:id, 'new_password').send_keys @npass
-    @driver.find_element(:id, 'new_password_confirmation').send_keys @npass
-    @driver.find_element(:name, 'commit').click
-  end
-
-  def test_03_new_project
-    login
+  def add_new_project_test
     @driver.find_element(:class, 'projects').click
     @driver.find_element(:class, 'icon-add').click
     @driver.find_element(:id, 'project_name').send_keys @project
@@ -78,8 +52,7 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:name, 'commit').click
   end
 
-  def test_04_and_add_new_user_to_project
-    login
+  def add_new_user_to_project_test
     @driver.find_element(:class, 'projects').click
     @driver.find_element(:id, "project_quick_jump_box").click
     @driver.find_element(:xpath, "//option[.='" + @project + "']").click
@@ -92,8 +65,7 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:id, 'member-add-submit').click
   end
 
-  def test_05_edit_user_roles
-    login
+  def edit_user_roles_test
     @driver.find_element(:class, 'projects').click
     @driver.find_element(:id, "project_quick_jump_box").click
     @driver.find_element(:xpath, "//option[.='" + @project + "']").click
@@ -105,8 +77,7 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:xpath, "(//input[@class='small'][@type='submit'])[2]").click
   end
 
-  def test_06_create_project_version
-    login
+  def create_project_version_test
     @driver.find_element(:class, 'projects').click
     @driver.find_element(:id, "project_quick_jump_box").click
     @driver.find_element(:xpath, "//option[.='" + @project + "']").click
@@ -117,27 +88,105 @@ class TestRedmine < Test::Unit::TestCase
     @driver.find_element(:name, 'commit').click
   end
 
-  def test_07_create_issues
-    login
+  def create_issue_test(issue_name)
+    @driver.navigate.to 'http://demo.redmine.org'
     @driver.find_element(:class, 'projects').click
     @driver.find_element(:id, "project_quick_jump_box").click
     @driver.find_element(:xpath, "//option[.='" + @project + "']").click
     @driver.find_element(:class, 'new-issue').click
     @driver.find_element(:id, 'issue_tracker_id').click
     @driver.find_element(:xpath, '//option[contains(., "Bug")]').click
-    @driver.find_element(:id, 'issue_subject').send_keys 'New_issue_bug'
-    @driver.find_element(:name, 'continue').click
-    @driver.find_element(:xpath, '//option[contains(., "Feature")]').click
-    @driver.find_element(:id, 'issue_subject').send_keys 'New_issue_feature'
-    @driver.find_element(:name, 'continue').click
-    @driver.find_element(:xpath, '//option[contains(., "Support")]').click
-    sleep 1
-    @driver.find_element(:id, 'issue_subject').send_keys 'New_issue_support'
+    @driver.find_element(:id, 'issue_subject').send_keys issue_name
     @driver.find_element(:name, 'commit').click
+  end
+
+#*********************************TEST*********************************************
+
+  def test_registration
+    registration_test(@login, '123', '123')
+    expected_text = 'Ваша учётная запись активирована. Вы можете войти.'
+    actual_text = @driver.find_element(:id, 'flash_notice').text
+    assert_equal(expected_text, actual_text)
+  end
+
+  def test_change_pass
+    registration_test(@login, '123', '123')
+    logout_test
+    @driver.find_element(:class, 'login').displayed?
+    @driver.find_element(:class, 'login').click
+    @driver.find_element(:id, 'username').send_keys @login
+    @driver.find_element(:id, 'password').send_keys @pass
+    @driver.find_element(:name, 'login').click
+    @driver.find_element(:class, 'my-account').click
+    @driver.find_element(:class, 'icon-passwd').click
+    @driver.find_element(:id, 'password').send_keys @pass
+    @driver.find_element(:id, 'new_password').send_keys @npass
+    @driver.find_element(:id, 'new_password_confirmation').send_keys @npass
+    @driver.find_element(:name, 'commit').click
+    logout_test
+    @driver.find_element(:class, 'login').click
+    @driver.find_element(:id, 'username').send_keys @login
+    @driver.find_element(:id, 'password').send_keys @npass
+    @driver.find_element(:name, 'login').click
+    assert(@driver.find_element(:xpath, "(//a[contains(.,'"+@login+"')])[1]").displayed?)
+  end
+
+  def test_new_project
+    registration_test(@login, '123', '123')
+    logout_test
+    registration_test(@login2, 'second_user', 'two')
+    logout_test
+    login_test
+    @driver.find_element(:class, 'projects').click
+    @driver.find_element(:class, 'icon-add').click
+    @driver.find_element(:id, 'project_name').send_keys @project
+    @driver.find_element(:id, 'project_identifier').send_keys '007'
+    @driver.find_element(:name, 'commit').click
+    add_new_user_to_project_test
+    assert(@driver.find_element(:xpath, "(//a[contains(.,'second_user two')])[1]").displayed?)
+  end
+
+  def test_edit_user_roles
+    registration_test(@login, '123', '123')
+    logout_test
+    registration_test(@login2, 'second_user', 'two')
+    logout_test
+    login_test
+    add_new_project_test
+    add_new_user_to_project_test
+    @driver.navigate.to 'http://demo.redmine.org'
+    edit_user_roles_test
+    assert(@driver.find_element(:xpath, "(//span[contains(.,'Developer')])[1]").displayed?)
+  end
+
+  def test_create_project_version
+    registration_test(@login, '123', '123')
+    add_new_project_test
+    create_project_version_test
+    assert(@driver.find_element(:xpath, "(//a[contains(.,'New_version')])[1]").displayed?)
+  end
+
+  def test_create_issues_bug
+    registration_test(@login, '123', '123')
+    add_new_project_test
+    create_issue_test('New_issue_bug')
     @driver.find_element(:class, 'issues').click
-# verify issues presence
     assert(@driver.find_element(:xpath, "(//a[contains(.,'New_issue_bug')])[1]").displayed?)
+  end
+
+  def test_create_issues_feature
+    registration_test(@login, '123', '123')
+    add_new_project_test
+    create_issue_test('New_issue_feature')
+    @driver.find_element(:class, 'issues').click
     assert(@driver.find_element(:xpath, '(//a[contains(.,"New_issue_feature")])[1]').displayed?)
+  end
+
+  def test_create_issues_support
+    registration_test(@login, '123', '123')
+    add_new_project_test
+    create_issue_test('New_issue_support')
+    @driver.find_element(:class, 'issues').click
     assert(@driver.find_element(:xpath, '(//a[contains(.,"New_issue_support")])[1]').displayed?)
   end
 
