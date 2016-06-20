@@ -1,3 +1,5 @@
+gem 'selenium-webdriver'
 gem 'test-unit'
+# gem 'test/unit'
 gem 'watir-webdriver'
-
+gem 'rspec'
