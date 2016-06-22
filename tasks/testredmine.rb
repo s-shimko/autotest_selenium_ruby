@@ -68,8 +68,9 @@ class TestRedmine < Test::Unit::TestCase
 
   def add_new_user_to_project
     @driver.find_element(:class, 'projects').click
-    @driver.find_element(:id, "project_quick_jump_box").click
-    @driver.find_element(:css, "option:nth-child(3)").click
+    # @driver.find_element(:id, "project_quick_jump_box").click
+    # @driver.find_element(:css, "option:nth-child(3)").click
+    @driver.find_element(:id, 'project_quick_jump_box').send_keys @project
     @driver.find_element(:class, "settings").click
     @driver.find_element(:id, 'tab-members').click
     @driver.find_element(:class, 'icon-add').click
@@ -117,91 +118,92 @@ class TestRedmine < Test::Unit::TestCase
 
 #*********************************TEST*********************************************
 
-  def test_registration
-    registration(@login, '123', '123')
-    expected_text_english = 'Your account has been activated. You can now log in.'
-    expected_text_russian = 'Ваша учётная запись активирована. Вы можете войти.'
-    actual_text = @driver.find_element(:id, 'flash_notice').text
-    assert(actual_text.include?(expected_text_english) || actual_text.include?(expected_text_russian))
-  end
+  # def test_registration
+  #   registration(@login, '123', '123')
+  #   expected_text_english = 'Your account has been activated. You can now log in.'
+  #   expected_text_russian = 'Ваша учётная запись активирована. Вы можете войти.'
+  #   actual_text = @driver.find_element(:id, 'flash_notice').text
+  #   assert(actual_text.include?(expected_text_english) || actual_text.include?(expected_text_russian))
+  # end
 
-  def test_change_pass
-    registration(@login, '123', '123')
-    change_pass(@pass, @npass)
-    logout
-    login(@login, @npass)
-    expected_text = @login
-    actual_text = @driver.find_element(:css, "#loggedas .user").text
-    assert_equal(expected_text, actual_text)
-  end
+  # def test_change_pass
+  #   registration(@login, '123', '123')
+  #   change_pass(@pass, @npass)
+  #   logout
+  #   login(@login, @npass)
+  #   expected_text = @login
+  #   actual_text = @driver.find_element(:css, "#loggedas .user").text
+  #   assert_equal(expected_text, actual_text)
+  # end
 
   def test_new_project
     registration(@login, '123', '123')
-    logout
+    # logout
     registration(@login2, 'second_user', 'two')
-    logout
+    # logout
     login(@login, @pass)
+    sleep 2
     add_new_project
     add_new_user_to_project
     expected_text = 'second_user two'
     actual_text = @driver.find_element(:css, ".even .name .user").text
     assert_equal(expected_text, actual_text)
   end
-
-  def test_edit_user_roles
-    registration(@login, '123', '123')
-    logout
-    registration(@login2, 'second_user', 'two')
-    logout
-    login(@login, @pass)
-    add_new_project
-    add_new_user_to_project
-    @driver.navigate.to 'http://demo.redmine.org'
-    edit_user_roles
-    @wait.until { @driver.find_element(:css, ".even .roles span[id^='member']").displayed? }
-    expected_text = 'Reporter'
-    actual_text = @driver.find_element(:css, ".even .roles span[id^='member']").text
-    assert_equal(expected_text, actual_text)
-  end
-
-  def test_create_project_version
-    registration(@login, '123', '123')
-    add_new_project
-    create_project_version
-    expected_text = 'New_version'
-    actual_text = @driver.find_element(:css, ".version .name a").text
-    assert_equal(expected_text, actual_text)
-  end
-
-  def test_create_issues_bug
-    registration(@login, '123', '123')
-    add_new_project
-    create_issue(1, 'New_issue_bug')
-    @driver.find_element(:class, 'issues').click
-    expected_text = 'New_issue_bug'
-    actual_text = @driver.find_element(:css, ".subject a").text
-    assert_equal(expected_text, actual_text)
-  end
-
-  def test_create_issues_feature
-    registration(@login, '123', '123')
-    add_new_project
-    create_issue(2, 'New_issue_feature')
-    @driver.find_element(:class, 'issues').click
-    expected_text = 'New_issue_feature'
-    actual_text = @driver.find_element(:css, ".subject a").text
-    assert_equal(expected_text, actual_text)
-  end
-
-  def test_create_issues_support
-    registration(@login, '123', '123')
-    add_new_project
-    create_issue(3, 'New_issue_support')
-    @driver.find_element(:class, 'issues').click
-    expected_text = 'New_issue_support'
-    actual_text = @driver.find_element(:css, ".subject a").text
-    assert_equal(expected_text, actual_text)
-  end
+  #
+  # def test_edit_user_roles
+  #   registration(@login, '123', '123')
+  #   logout
+  #   registration(@login2, 'second_user', 'two')
+  #   logout
+  #   login(@login, @pass)
+  #   add_new_project
+  #   add_new_user_to_project
+  #   @driver.navigate.to 'http://demo.redmine.org'
+  #   edit_user_roles
+  #   @wait.until { @driver.find_element(:css, ".even .roles span[id^='member']").displayed? }
+  #   expected_text = 'Reporter'
+  #   actual_text = @driver.find_element(:css, ".even .roles span[id^='member']").text
+  #   assert_equal(expected_text, actual_text)
+  # end
+  #
+  # def test_create_project_version
+  #   registration(@login, '123', '123')
+  #   add_new_project
+  #   create_project_version
+  #   expected_text = 'New_version'
+  #   actual_text = @driver.find_element(:css, ".version .name a").text
+  #   assert_equal(expected_text, actual_text)
+  # end
+  #
+  # def test_create_issues_bug
+  #   registration(@login, '123', '123')
+  #   add_new_project
+  #   create_issue(1, 'New_issue_bug')
+  #   @driver.find_element(:class, 'issues').click
+  #   expected_text = 'New_issue_bug'
+  #   actual_text = @driver.find_element(:css, ".subject a").text
+  #   assert_equal(expected_text, actual_text)
+  # end
+  #
+  # def test_create_issues_feature
+  #   registration(@login, '123', '123')
+  #   add_new_project
+  #   create_issue(2, 'New_issue_feature')
+  #   @driver.find_element(:class, 'issues').click
+  #   expected_text = 'New_issue_feature'
+  #   actual_text = @driver.find_element(:css, ".subject a").text
+  #   assert_equal(expected_text, actual_text)
+  # end
+  #
+  # def test_create_issues_support
+  #   registration(@login, '123', '123')
+  #   add_new_project
+  #   create_issue(3, 'New_issue_support')
+  #   @driver.find_element(:class, 'issues').click
+  #   expected_text = 'New_issue_support'
+  #   actual_text = @driver.find_element(:css, ".subject a").text
+  #   assert_equal(expected_text, actual_text)
+  # end
 
 
   def teardown
