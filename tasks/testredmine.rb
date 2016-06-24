@@ -1,13 +1,13 @@
 # require 'test-unit'
 require 'test/unit'
 require 'selenium-webdriver'
-require 'rspec/expectations'
+# require 'rspec/expectations'
 
 
 class TestRedmine < Test::Unit::TestCase
 
   def setup
-    @driver = Selenium::WebDriver.for :firefox
+    @driver = Selenium::WebDriver.for :chrome
     @wait = Selenium::WebDriver::Wait.new(:timeout => 5)
     @driver.manage.timeouts.implicit_wait = 5
 
@@ -68,23 +68,24 @@ class TestRedmine < Test::Unit::TestCase
 
   def add_new_user_to_project
     @driver.find_element(:class, 'projects').click
-    # @driver.find_element(:id, "project_quick_jump_box").click
-    # @driver.find_element(:css, "option:nth-child(3)").click
-    @driver.find_element(:id, 'project_quick_jump_box').send_keys @project
+    dropDownMenu = @driver.find_element(:id, "project_quick_jump_box")
+    option = Selenium::WebDriver::Support::Select.new(dropDownMenu)
+    option.select_by(:text, @project)
     @driver.find_element(:class, "settings").click
     @driver.find_element(:id, 'tab-members').click
     @driver.find_element(:class, 'icon-add').click
     @driver.find_element(:id, 'principal_search').send_keys @login2
-    @wait.until { @driver.find_element(:css, "#principals label:first-child").displayed? }
-    @driver.find_element(:css, "#principals label:first-child").click
+    @wait.until { @driver.find_element(:css, "#principals input[name*='membership']").displayed? }
+    @driver.find_element(:css, "#principals input[name*='membership']").click
     @driver.find_element(:css, ".roles-selection input[value='4']").click
     @driver.find_element(:id, 'member-add-submit').click
   end
 
   def edit_user_roles
     @driver.find_element(:class, 'projects').click
-    @driver.find_element(:id, "project_quick_jump_box").click
-    @driver.find_element(:css, "option:nth-child(3)").click
+    dropDownMenu = @driver.find_element(:id, "project_quick_jump_box")
+    option = Selenium::WebDriver::Support::Select.new(dropDownMenu)
+    option.select_by(:text, @project)
     @driver.find_element(:class, "settings").click
     @driver.find_element(:id, 'tab-members').click
     @driver.find_element(:css, "tr[class='even member'] a[class='icon icon-edit']").click
@@ -95,8 +96,9 @@ class TestRedmine < Test::Unit::TestCase
 
   def create_project_version
     @driver.find_element(:class, 'projects').click
-    @driver.find_element(:id, "project_quick_jump_box").click
-    @driver.find_element(:css, "option:nth-child(3)").click
+    dropDownMenu = @driver.find_element(:id, "project_quick_jump_box")
+    option = Selenium::WebDriver::Support::Select.new(dropDownMenu)
+    option.select_by(:text, @project)
     @driver.find_element(:class, "settings").click
     @driver.find_element(:id, 'tab-versions').click
     @driver.find_element(:css, "#tab-content-versions .icon").click
@@ -107,8 +109,9 @@ class TestRedmine < Test::Unit::TestCase
   def create_issue(option, issue_name)
     @driver.navigate.to 'http://demo.redmine.org'
     @driver.find_element(:class, 'projects').click
-    @driver.find_element(:id, "project_quick_jump_box").click
-    @driver.find_element(:css, "option:nth-child(3)").click
+    dropDownMenu = @driver.find_element(:id, "project_quick_jump_box")
+    option = Selenium::WebDriver::Support::Select.new(dropDownMenu)
+    option.select_by(:text, @project)
     @driver.find_element(:class, 'new-issue').click
     @driver.find_element(:id, 'issue_tracker_id').click
     @driver.find_element(:css, "#issue_tracker_id option:nth-child(" + (option.to_s) + ")").click
@@ -125,7 +128,7 @@ class TestRedmine < Test::Unit::TestCase
   #   actual_text = @driver.find_element(:id, 'flash_notice').text
   #   assert(actual_text.include?(expected_text_english) || actual_text.include?(expected_text_russian))
   # end
-
+  #
   # def test_change_pass
   #   registration(@login, '123', '123')
   #   change_pass(@pass, @npass)
@@ -135,22 +138,8 @@ class TestRedmine < Test::Unit::TestCase
   #   actual_text = @driver.find_element(:css, "#loggedas .user").text
   #   assert_equal(expected_text, actual_text)
   # end
-
-  def test_new_project
-    registration(@login, '123', '123')
-    # logout
-    registration(@login2, 'second_user', 'two')
-    # logout
-    login(@login, @pass)
-    sleep 2
-    add_new_project
-    add_new_user_to_project
-    expected_text = 'second_user two'
-    actual_text = @driver.find_element(:css, ".even .name .user").text
-    assert_equal(expected_text, actual_text)
-  end
   #
-  # def test_edit_user_roles
+  # def test_new_project
   #   registration(@login, '123', '123')
   #   logout
   #   registration(@login2, 'second_user', 'two')
@@ -158,14 +147,27 @@ class TestRedmine < Test::Unit::TestCase
   #   login(@login, @pass)
   #   add_new_project
   #   add_new_user_to_project
-  #   @driver.navigate.to 'http://demo.redmine.org'
-  #   edit_user_roles
-  #   @wait.until { @driver.find_element(:css, ".even .roles span[id^='member']").displayed? }
-  #   expected_text = 'Reporter'
-  #   actual_text = @driver.find_element(:css, ".even .roles span[id^='member']").text
+  #   expected_text = 'second_user two'
+  #   actual_text = @driver.find_element(:css, ".even .name .user").text
   #   assert_equal(expected_text, actual_text)
   # end
-  #
+
+  def test_edit_user_roles
+    registration(@login, '123', '123')
+    logout
+    registration(@login2, 'second_user', 'two')
+    logout
+    login(@login, @pass)
+    add_new_project
+    add_new_user_to_project
+    @driver.navigate.to 'http://demo.redmine.org'
+    edit_user_roles
+    @wait.until { @driver.find_element(:css, ".even .roles span[id*='member']").displayed? }
+    expected_text = 'Reporter'
+    actual_text = @driver.find_element(:css, ".even .roles span[id*='member']").text
+    assert_equal(expected_text, actual_text)
+  end
+
   # def test_create_project_version
   #   registration(@login, '123', '123')
   #   add_new_project
