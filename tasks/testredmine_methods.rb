@@ -74,7 +74,12 @@ module TestRedmineMethods
     index_user = names.index('third_user three')
     @index = index_user.to_i + 1
 
-    @driver.find_element(:css, ".member:nth-child("+(@index.to_s)+") .icon-edit").click
+     @y = @driver.current_url
+    @z = @driver.find_elements(:css, '.member .icon-edit').count
+    @x = @driver.find_elements(:css, ".member .icon-edit")[@index]
+
+
+   @a =  @driver.find_elements(:css, ".member:nth-child("+(@index.to_s)+") .icon-edit").count
     @driver.find_element(:css, ".member:nth-child("+(@index.to_s)+") input[value='4']").click
     @driver.find_element(:css, ".member:nth-child("+(@index.to_s)+") input[value='5']").click
     @driver.find_element(:css, ".member:nth-child("+(@index.to_s)+") .small").click
