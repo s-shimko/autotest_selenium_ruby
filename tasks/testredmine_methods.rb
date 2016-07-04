@@ -69,21 +69,14 @@ module TestRedmineMethods
     @driver.find_element(:class, "settings").click
     @driver.find_element(:id, 'tab-members').click
 
-    user_list = @driver.find_elements(:css, ".name .user")
-    names = user_list.map {|user| user.text}
-    index_user = names.index('third_user three')
-    @index = index_user.to_i + 1
+    @user_list = @driver.find_elements(:css, ".name .user")
+    @names = @user_list.map {|user| user.text}
+    @index = @names.index('third_user three')
 
-     @y = @driver.current_url
-    @z = @driver.find_elements(:css, '.member .icon-edit').count
-    @x = @driver.find_elements(:css, ".member .icon-edit")[@index]
-
-
-   @a =  @driver.find_elements(:css, ".member:nth-child("+(@index.to_s)+") .icon-edit").count
-    @driver.find_element(:css, ".member:nth-child("+(@index.to_s)+") input[value='4']").click
-    @driver.find_element(:css, ".member:nth-child("+(@index.to_s)+") input[value='5']").click
-    @driver.find_element(:css, ".member:nth-child("+(@index.to_s)+") .small").click
-
+    @driver.find_elements(:css, ".member .icon-edit")[@index].click
+    @driver.find_elements(:css, ".member input[value='4']")[@index].click
+    @driver.find_elements(:css, ".member input[value='5']")[@index].click
+    @driver.find_elements(:css, ".member .small")[@index].click
   end
 
   def create_project_version
@@ -110,5 +103,18 @@ module TestRedmineMethods
     @driver.find_element(:id, 'issue_subject').send_keys issue_name
     @driver.find_element(:name, 'commit').click
   end
+
+   def registration3(login, first_name, last_name)
+     browser.goto 'http://demo.redmine.org'
+     browser.link(:class, 'register').click
+     browser.text_field(:id, 'user_login').set login
+     browser.text_field(:id, 'user_password').set @pass
+     browser.text_field(:id, 'user_password_confirmation').set @pass
+     browser.text_field(:id, 'user_firstname').set first_name
+     browser.text_field(:id, 'user_lastname').set last_name
+     browser.text_field(:id, 'user_mail').set(login + '@dd.dd')
+     browser.select_list(:id, "user_language").select 'English'
+   end
+
 
 end
