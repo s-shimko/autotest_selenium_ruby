@@ -104,17 +104,17 @@ module TestRedmineMethods
     @driver.find_element(:name, 'commit').click
   end
 
-   def registration3(login, first_name, last_name)
-     browser.goto 'http://demo.redmine.org'
-     browser.link(:class, 'register').click
-     browser.text_field(:id, 'user_login').set login
-     browser.text_field(:id, 'user_password').set @pass
-     browser.text_field(:id, 'user_password_confirmation').set @pass
-     browser.text_field(:id, 'user_firstname').set first_name
-     browser.text_field(:id, 'user_lastname').set last_name
-     browser.text_field(:id, 'user_mail').set(login + '@dd.dd')
-     browser.select_list(:id, "user_language").select 'English'
-   end
+   # def registration3(login, first_name, last_name)
+   #   browser.goto 'http://demo.redmine.org'
+   #   browser.link(:class, 'register').click
+   #   browser.text_field(:id, 'user_login').set login
+   #   browser.text_field(:id, 'user_password').set @pass
+   #   browser.text_field(:id, 'user_password_confirmation').set @pass
+   #   browser.text_field(:id, 'user_firstname').set first_name
+   #   browser.text_field(:id, 'user_lastname').set last_name
+   #   browser.text_field(:id, 'user_mail').set(login + '@dd.dd')
+   #   browser.select_list(:id, "user_language").select 'English'
+   # end
 
 
 end
