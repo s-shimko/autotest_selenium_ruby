@@ -1,6 +1,7 @@
 require 'watir-webdriver'
 require 'test/unit'
 require 'selenium-webdriver'
+require "watir-webdriver/extensions/alerts"
 
 class TestBonusTasks < Test::Unit::TestCase
 
@@ -8,7 +9,6 @@ class TestBonusTasks < Test::Unit::TestCase
     @browser = Watir::Browser.new :chrome
     @browser.driver.manage.timeouts.implicit_wait = 1
   end
-
 
 
   def hover
@@ -61,11 +61,37 @@ class TestBonusTasks < Test::Unit::TestCase
   end
 
   def javascript_alerts
+    @browser.goto "https://the-internet.herokuapp.com/javascript_alerts"
+    @browser.button(:xpath, "//button[@onclick='jsAlert()']").click
+    @browser.alert.ok
+    @browser.p(text: 'You successfuly clicked an alert').wait_until_present(2)
 
+    @browser.button(:xpath, "//button[@onclick='jsConfirm()']").click
+    @browser.alert.when_present.ok
+    @browser.p(text: 'You clicked: Ok').wait_until_present(2)
+
+    @browser.button(:xpath, "//button[@onclick='jsConfirm()']").click
+    @browser.alert.when_present.close
+    @browser.p(text: 'You clicked: Cancel').wait_until_present(2)
+
+    @browser.button(:xpath, "//button[@onclick='jsPrompt()']").click
+    @browser.alert.set "Test"
+    @browser.alert.ok
+    @browser.p(text: 'You entered: Test').wait_until_present(2)
+
+    @browser.button(:xpath, "//button[@onclick='jsPrompt()']").click
+    @browser.alert.set "Test"
+    @browser.alert.close
+    @browser.p(text: 'You entered: null').wait_until_present(2)
   end
 
   def multiple_windows
-
+    @browser.goto "https://the-internet.herokuapp.com/windows"
+    @browser.link(:xpath, "//a[@target='_blank']").click
+    @browser.window(:title => "New Window").use
+    @browser.h3(text: 'New Window').wait_until_present(2)
+    @browser.window(:title => "The Internet").use
+    @browser.h3(text: 'Opening a new window').wait_until_present(2)
   end
 
   def test_bonustasks
@@ -74,7 +100,9 @@ class TestBonusTasks < Test::Unit::TestCase
     # select_list
     # iframe_realisation
     # key_presses
-    jquery_ui_menu
+    # jquery_ui_menu
+    # javascript_alerts
+    multiple_windows
 
 
     # registration3(@login, "first_name", "last_name")
