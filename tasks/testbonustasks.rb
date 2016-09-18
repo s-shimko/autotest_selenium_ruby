@@ -41,7 +41,16 @@ class TestBonusTasks < Test::Unit::TestCase
 
   def iframe_realisation
     @browser.goto "https://the-internet.herokuapp.com/iframe"
-    @browser.frame(:id => "tinymce").text_field(:id => "tinymce").set "admin"
+
+    @browser.element(:text => "File").click
+    sleep 1
+    @browser.element(:text => "New document").click
+    sleep 1
+    @browser.text_field(:id => "tinymce").set 'Watir'
+    sleep 1
+    # @browser.frame(:id => "tinymce").text_field(:id => "tinymce").set "admin"
+    # sleep 1
+
   end
 
   def key_presses
@@ -57,7 +66,13 @@ class TestBonusTasks < Test::Unit::TestCase
 
   def jquery_ui_menu
     @browser.goto "https://the-internet.herokuapp.com/jqueryui/menu"
-    @browser
+    @browser.element(:text => "Enabled").click
+    sleep 1
+    @browser.element(:text => "Back to JQuery UI").click
+    sleep 1
+    # @browser.element(:text => "PDF").click
+    # sleep 1
+    @browser.h3(text: 'JQuery UI').wait_until_present(2)
   end
 
   def javascript_alerts
@@ -98,11 +113,11 @@ class TestBonusTasks < Test::Unit::TestCase
     # hover
     # drag_and_drop_realisation
     # select_list
-    # iframe_realisation
+    iframe_realisation
     # key_presses
     # jquery_ui_menu
     # javascript_alerts
-    multiple_windows
+    # multiple_windows
 
 
     # registration3(@login, "first_name", "last_name")
