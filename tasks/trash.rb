@@ -25,81 +25,81 @@ puts object.value
 
 
 # #==========================oven start=======================================
-# class Oven
-#
-#   @@all_ovens_spent = 0
-#   ENERGY_PRICE = 100
-#
-#   def self.sum
-#     @@all_ovens_spent*ENERGY_PRICE
-#   end
-#
-#
-#   # def initialize(model, colour, volume, power)
-#   #   @model = model
-#   #   @colour = colour
-#   #   @volume = volume
-#   #   @power = power
-#   # end
-#   attr_reader :power, :model, :colour, :volume
-#   attr_accessor :default_time
-#
-#   def initialize(options={})
-#       @model = options[:model]
-#       @colour = options[:colour]
-#       @volume = options[:volume]
-#       @power = options[:power]
-#       @energy_spent = 0
-#       @default_time = 5
-#   end
-#
-# def puts_p
-#   puts @model
-#   puts @colour
-#   puts @volume
-#   puts @power
-# end
-#
-#   def turn_on(time: nil, power: 300)
-#     time = @default_time unless time
-#     puts "working"
-#     if power > @power
-#       raise "This oven is not so powerfull"
-#     elsif power < 100
-#       raise "Please choose correct power"
-#     end
-#     puts "power is #{power}W"
-#     sleep time
-#     @energy_spent += count_energy(power,time)
-#     @@all_ovens_spent += count_energy(power,time)
-#     puts "..."
-#     sleep 1
-#     turn_off
-#   end
-#
-#   def count_energy(power,time)
-#     (((power/60.00)*time)/1000).round(2)
-#   end
-#
-#   def turn_off
-#     puts "stop"
-#   end
-# end
-# options = {model: '33',colour: 'red', volume: 'loud', power: 2000}
-# var = Oven.new(options)
-#
-# var.turn_on(power: 412)
-# puts 'Power is ' + var.power.to_s
-# puts 'Colour is ' + var.colour.to_s
-# puts 'Model is ' + var.model.to_s
-# puts 'Volume is ' + var.volume.to_s
-# # var.turn_off
-#
-# oven1 = Oven.new
-# oven2 = Oven.new
-# oven1.turn_on(time:2,power:22000)
-# oven2.turn_on(time:3,power:21000)
-# puts "Sum is " + Oven.sum
+class Oven
+
+  @@all_ovens_spent = 0
+  ENERGY_PRICE = 100
+
+  def self.sum
+    @@all_ovens_spent*ENERGY_PRICE
+  end
+
+
+  # def initialize(model, colour, volume, power)
+  #   @model = model
+  #   @colour = colour
+  #   @volume = volume
+  #   @power = power
+  # end
+  attr_reader :power, :model, :colour, :volume
+  attr_accessor :default_time
+
+  def initialize(options={})
+      @model = options[:model]
+      @colour = options[:colour]
+      @volume = options[:volume]
+      @power = options[:power]
+      @energy_spent = 0
+      @default_time = 5
+  end
+
+def puts_p
+  puts @model
+  puts @colour
+  puts @volume
+  puts @power
+end
+
+  def turn_on(time: nil, power: 300)
+    time = @default_time unless time
+    puts "working"
+    if power > @power
+      raise "This oven is not so powerfull"
+    elsif power < 100
+      raise "Please choose correct power"
+    end
+    puts "power is #{power}W"
+    sleep time
+    @energy_spent += count_energy(power,time)
+    @@all_ovens_spent += count_energy(power,time)
+    puts "..."
+    sleep 1
+    turn_off
+  end
+
+  def count_energy(power,time)
+    (((power/60.00)*time)/1000).round(2)
+  end
+
+  def turn_off
+    puts "stop"
+  end
+end
+options = {model: '33',colour: 'red', volume: 'loud', power: 2000}
+var = Oven.new(options)
+
+var.turn_on(power: 412)
+puts 'Power is ' + var.power.to_s
+puts 'Colour is ' + var.colour.to_s
+puts 'Model is ' + var.model.to_s
+puts 'Volume is ' + var.volume.to_s
+# var.turn_off
+
+oven1 = Oven.new
+oven2 = Oven.new
+oven1.turn_on(time:2,power:22000)
+oven2.turn_on(time:3,power:21000)
+puts "Sum is " + Oven.sum
 #================================oven end================================================
 # def call_yield
 #   ary = ['string', 'sss']
