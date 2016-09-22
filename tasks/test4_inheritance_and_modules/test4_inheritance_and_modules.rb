@@ -59,18 +59,29 @@ end
 class Musician < People
   include Heal
 
-  def initialize name
+  def initialize name, band
     @name = name
+    @band = band
   end
 
   def know_the_notes
     puts "My name is #{@name} and I know the notes! #{self.have_an_instrument}"
   end
 
+  def play_band(band)
+  puts "And I play in a band: #{band.band}"
+  end
+
   protected
   def have_an_instrument
     "And I have an instrument!"
   end
+
+  def band
+    @band
+  end
+
+
 end
 
 
@@ -120,9 +131,10 @@ iggy.eat
 iggy.die
 puts ""
 
-henry = Musician.new("Henry Rollins")
+henry = Musician.new("Henry Rollins", "Black Flag")
 henry.know_the_notes
-puts henry.have_an_instrument
+henry.play_band(henry)
+
 # class Doctor
 #   #know anatomy
 # end
