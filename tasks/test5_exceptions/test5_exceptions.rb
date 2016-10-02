@@ -7,23 +7,49 @@
 # to create a new project and then retry to execute attempt to open a project page
 
 # - Limit number of retries to prevent your code from endless execution
+def aaa
+raise "a >= 5 - oh nooooooo!!!"
+rescue RuntimeError => e
+puts e
+end
+
 
 begin
-  a = gets.to_i
 
-  if a > 5
-    raise "a > 5 - oh nooooooo!!!"
+  count = 0
+  while count <= 3
+     a = gets.to_i
+    if a >= 5
+      aaa
+      puts count
 
-  else
-    puts "a < 5"
+
+count +=1
+
+
+    else
+      puts "a < 5"
+      count = 4
+      puts count
+   end
+
+
   end
 
-rescue RuntimeError => e
-  puts e
+puts 'thats it'
+  # ensure
+  #
+  # a = gets.to_i
+  #
+  # if a >= 5
+  #   raise "a >= 5 - oh nooooooo!!!"
+  #
+  # else
+  #   puts "a < 5"
+  # end
 
-ensure
-  puts "next code without fail test"
-
+ # puts "Here I'm practising."
+ # puts "Look for task implementation in test2_constructions_and_operators.rb"
 end
 
 
@@ -33,4 +59,4 @@ end
 
 
 #Here I'm practising.
-#Look for task implementation in testredmine.rb
+#Look for task implementation in test2_constructions_and_operators.rb

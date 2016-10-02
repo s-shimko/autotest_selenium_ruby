@@ -15,10 +15,10 @@ module TestRedmineMethodsWatir
 
   end
 
-  def create_new_project
+  def create_new_project(project)
     @browser.link(:class, 'projects').click
     @browser.link(:class, 'icon-add').click
-    @browser.text_field(:id, 'project_name').set @project
+    @browser.text_field(:id, 'project_name').set project
     @browser.text_field(:id, 'project_identifier').set @identifier
     @browser.button(:name, 'commit').click
   end
@@ -26,8 +26,6 @@ module TestRedmineMethodsWatir
   def new_issue(option,issue_name)
     @browser.link(:css, '.new-issue').click
     @browser.select_list(:id, "issue_tracker_id").select option
-    # @browser.link(:id, 'issue_tracker_id').click
-    # @browser.element(:css, "#issue_tracker_id option:nth-child(" + (option.to_s) + ")").click
     @browser.text_field(:id, 'issue_subject').send_keys issue_name
     @browser.button(:name, 'commit').click
   end
@@ -36,6 +34,16 @@ module TestRedmineMethodsWatir
     @browser.link(:xpath, "//a[contains(.,'"+name+"')]").click
     @browser.link(:xpath, "(//a[contains(.,'Watch')])[1]").click
     @browser.a(text: "Unwatch").wait_until_present(2)
+  end
+
+  def login(login, pass)
+    @browser.goto 'http://demo.redmine.org'
+    # @browser.div(text: 'Ваша учётная запись активирована. Вы можете войти.').wait_until_present(2)
+    # @wait.until { @driver.find_element(:class, 'login').displayed? }
+    @browser.element(:class, 'login').click
+    @browser.element(:id, 'username').send_keys login
+    @browser.element(:id, 'password').send_keys pass
+    @browser.button(:name, 'login').click
   end
 
 end

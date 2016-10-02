@@ -24,9 +24,13 @@ class TestBonusTasks < Test::Unit::TestCase
 
   def drag_and_drop_realisation
     @browser.goto "https://the-internet.herokuapp.com/drag_and_drop"
+    sleep 1
+    # dnd_javascript = File.join(File.dirname(__FILE__), 'drag_and_drop_helper.js')
+    dnd_javascript = File.read(Dir.pwd + '/drag_and_drop_helper.js')
+    @browser.execute_script(dnd_javascript+"$('#column-a').simulateDragDrop({ dropTarget: '#column-b'});")
+    sleep 1
     el1 = @browser.element(:css, "#column-a")
     el2 = @browser.element(:css, "#column-b")
-# @browser.driver.action.drag_and_drop(el1, el2).perform
     el1.driver.action.drag_and_drop(@element, el2.wd).perform
     sleep 1
   end
@@ -111,9 +115,9 @@ class TestBonusTasks < Test::Unit::TestCase
 
   def test_bonustasks
     # hover
-    # drag_and_drop_realisation
+    drag_and_drop_realisation
     # select_list
-    iframe_realisation
+    # iframe_realisation
     # key_presses
     # jquery_ui_menu
     # javascript_alerts

@@ -45,6 +45,7 @@ require 'test/unit'
 require 'selenium-webdriver'
 
 require_relative 'testredmine_methods_watir'
+require_relative 'test5_exceptions/no_project_error'
 class Test2ConstructionsAndOperators < Test::Unit::TestCase
 
   def setup
@@ -62,34 +63,86 @@ class Test2ConstructionsAndOperators < Test::Unit::TestCase
 
   include TestRedmineMethodsWatir
 
-
-  def test_constructions_and_operators
+  def task5_exceptions
     registration_watir(@login, "first_name", "last_name")
-    create_new_project
 
-    a = rand(0..1)
-    if a == 0
-      new_issue('Bug', @bug_name)
+  #   prjct = @browser.text.include? @project
+  #   NoProjectError.nop unless @browser.text.include? @project
+  # rescue RuntimeError => e
+  #   puts e
+
+    count = 0
+while count <= 3
+  @browser.element(:css, ".projects").click
+  NoProjectError.nop unless @browser.text.include? @project
+  prjct = NoProjectError.nop unless @browser.text.include? @project
+puts prjct
+    if prjct == true
+      create_new_project(@project)
+    else
+      @browser.element(:text => @project).click
+      @browser.h1(text: @project).wait_until_present(2)
+      break
     end
 
-    @browser.select_list(:id, "project_quick_jump_box").select(@project)
-    @browser.link(:class, 'issues').click
+      @browser.element(:css, ".projects").click
+  count += 1
+end
+    NoProjectError.nop unless @browser.text.include? @project
+  end
 
-    if @browser.a(text: @bug_name).present? == true
-      add_self_as_watcher(@bug_name)
-    else
-      new_issue('Bug', @bug_name)
+
+  def task2_constructions_and_operators
+      registration_watir(@login, "first_name", "last_name")
+      create_new_project(@project)
+
+      a = rand(0..1)
+      if a == 0
+        new_issue('Bug', @bug_name)
+      end
+
       @browser.select_list(:id, "project_quick_jump_box").select(@project)
       @browser.link(:class, 'issues').click
-      add_self_as_watcher(@bug_name)
+
+      if @browser.a(text: @bug_name).present? == true
+        add_self_as_watcher(@bug_name)
+      else
+        new_issue('Bug', @bug_name)
+        @browser.select_list(:id, "project_quick_jump_box").select(@project)
+        @browser.link(:class, 'issues').click
+        add_self_as_watcher(@bug_name)
+      end
     end
+
+    def test_start
+      task5_exceptions
+      # # @login = nil
+      # @pass = nil
+      # puts "#{@login} and #{@pass}"
+      # @browser.goto 'http://demo.redmine.org'
+      # loge = TestError.new
+      #
+      # @browser.element(:class, 'login').click
+      # @browser.element(:id, 'username').send_keys @login
+      # loge.login_value(@login)
+      #
+      # @browser.element(:id, 'password').send_keys @pass
+      # loge.pass_value(@pass)
+      #
+      # @browser.button(:name, 'login').click
+    end
+
+
+    def teardown
+      @browser.close
+    end
+
   end
 
-  def teardown
-    @browser.close
-  end
 
-end
+
+
+
 
 
 
