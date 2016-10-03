@@ -43,10 +43,13 @@ end
 require 'watir-webdriver'
 require 'test/unit'
 require 'selenium-webdriver'
+require 'rspec'
 
 require_relative 'testredmine_methods_watir'
 require_relative 'test5_exceptions/no_project_error'
 class Test2ConstructionsAndOperators < Test::Unit::TestCase
+
+  include RSpec::Matchers
 
   def setup
     @browser = Watir::Browser.new :chrome
@@ -65,30 +68,24 @@ class Test2ConstructionsAndOperators < Test::Unit::TestCase
 
   def task5_exceptions
     registration_watir(@login, "first_name", "last_name")
-
-  #   prjct = @browser.text.include? @project
-  #   NoProjectError.nop unless @browser.text.include? @project
-  # rescue RuntimeError => e
-  #   puts e
-
     count = 0
-while count <= 3
-  @browser.element(:css, ".projects").click
-  NoProjectError.nop unless @browser.text.include? @project
-  prjct = NoProjectError.nop unless @browser.text.include? @project
-puts prjct
-    if prjct == true
-      create_new_project(@project)
-    else
-      @browser.element(:text => @project).click
-      @browser.h1(text: @project).wait_until_present(2)
-      break
-    end
-
+    while count <= 3
       @browser.element(:css, ".projects").click
-  count += 1
-end
-    NoProjectError.nop unless @browser.text.include? @project
+
+      check_prjct = @browser.text.include? @project
+      NoProjectError.nop unless check_prjct
+
+      if check_prjct == false
+        create_new_project(@project)
+        count += 1
+      else
+        @browser.element(:text => @project).click
+        expect(@browser.h1.text).to include @project
+        # @browser.h1(text: @project).wait_until_present(2)
+        puts "Project was found!"
+        count = 4
+      end
+    end
   end
 
 
@@ -116,20 +113,7 @@ end
 
     def test_start
       task5_exceptions
-      # # @login = nil
-      # @pass = nil
-      # puts "#{@login} and #{@pass}"
-      # @browser.goto 'http://demo.redmine.org'
-      # loge = TestError.new
-      #
-      # @browser.element(:class, 'login').click
-      # @browser.element(:id, 'username').send_keys @login
-      # loge.login_value(@login)
-      #
-      # @browser.element(:id, 'password').send_keys @pass
-      # loge.pass_value(@pass)
-      #
-      # @browser.button(:name, 'login').click
+      # task2_constructions_and_operators
     end
 
 

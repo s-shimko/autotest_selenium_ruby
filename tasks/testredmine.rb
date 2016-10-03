@@ -6,6 +6,7 @@ require_relative 'testredmine_methods'
 
 class TestRedmine < Test::Unit::TestCase
   include TestRedmineMethods
+  include RSpec::Matchers
 
   def setup
     @driver = Selenium::WebDriver.for :chrome
