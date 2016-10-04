@@ -1,0 +1,57 @@
+expect(actual_object).to eql(expected_object)
+eql - matcher
+
+require 'rspec'
+include RSpec::Matchers
+
+a = 1
+b = 2
+expect(a).to eql b
+
+Matchers:
+
+Equality:
+expect(a).to be == b             # passes if a == b
+expect(a).to eql == b            # passes if a.eql? (b)
+expect(a).to equal == b          # passes if a.equal? (b)
+
+expect('string').to equal('string') # => false
+expect(:string).to equal(:string)   # => true
+
+Comparison:
+expect(9).to be > 6
+expect(3).to be <= 3
+expect(1).to be < 6
+
+Be:
+expect(a).to be_truthy            # passes id obj is truthy (not nil or false)
+expect(a).to be_true	          # passes if obj is true
+expect(a).to be_falsey            # passes id obj is false (nil or false)
+expect(a).to be_false	          # passes if obj is false
+expect(a).to be_nil               # passes id obj is nil
+expect(a).to be		          # passes id obj is truthy (not nil or false)\
+
+Type:
+expect(a).to be_an_instance_of(String)
+expect(a).to be_an_kind_of(Object)
+expect(a).to be_an(Object)
+
+Include:
+expect("a string").to include("a")	# string
+expect([1, 2]).to include(1)		# array
+
+Start/end with:
+ 
+# string:
+expect("this string").to start_with("this")
+expect("this string").to end_with("string")
+# array:
+expect([0, 1, 2]).to start_with(0, 1)
+expect([0, 1, 2]).to end_with(1, 2)
+
+Exist:
+
+
+
+
+

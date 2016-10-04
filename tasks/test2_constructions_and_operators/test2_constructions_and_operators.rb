@@ -45,8 +45,8 @@ require 'test/unit'
 require 'selenium-webdriver'
 require 'rspec'
 
-require_relative 'testredmine_methods_watir'
-require_relative 'test5_exceptions/no_project_error'
+require_relative 'test_methods_watir'
+require_relative 'no_project_error'
 class Test2ConstructionsAndOperators < Test::Unit::TestCase
 
   include RSpec::Matchers
@@ -64,7 +64,7 @@ class Test2ConstructionsAndOperators < Test::Unit::TestCase
     @pass = '1234'
   end
 
-  include TestRedmineMethodsWatir
+  include TestMethodsWatir
 
   def task5_exceptions
     registration_watir(@login, "first_name", "last_name")

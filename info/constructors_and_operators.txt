@@ -1,0 +1,260 @@
+Conditionals
+
+if cond 
+  code
+end
+
+code if cond   - сокращенный вариант
+
+unless var   (equivalent if !var )
+  code
+end
+
+code unless var
+
+if var == 3
+  code1
+else
+  code2
+end
+
+unless var != 3  (аналог верхнего для примера, но использовать неудобно)
+  code1
+else
+  code2
+end
+
+var == 3 ? code 1 : code 2  (аналог, сахар)
+
+if var == 3
+  code1
+elsif var == 2
+  code2
+else
+  code3
+end
+
+case
+  when a>0
+    code
+  when a<0
+    code
+  when a==0
+    code
+  else
+    code
+end
+
+case var_name
+  when FixNum, BigDecimal
+    code
+  when Float
+    code
+  when BigNum
+    code
+  when String
+    code
+  else
+    code
+end
+
+age = 5
+case age
+  when 0 .. 2
+    puts "Baby"
+  when 3 .. 6
+    puts "Child"
+  else
+    puts "Adult"
+end
+
+
+Loops - each
+
+array.each do  |item|
+  puts item
+end
+
+
+Loops - for ... in
+
+for a in array do
+  puts a
+end
+
+
+Loops - times
+
+6.times do
+  puts 'some'
+end
+
+Loops - while
+
+a = 10
+while a < 3
+  puts 'a is less than 3'
+  a -= 1
+end
+
+puts 'ok' while element.ok?
+
+i=6
+num=5
+begin
+  puts 'ok'    - выполнится 1 раз точно
+end while i < num 
+
+
+Loops - until (обратный while)
+
+a = 0
+until a > 3  
+  puts 'ok'  - выполняется пока условие не выполняется
+  a += 1
+end
+
+a += 1 until a > 5
+
+begin
+ a += 1
+end until a > 5
+
+
+Arithmetic operators
+
+2**3  - степень 3
+3%2   - остаток от деления
+
+
+Assignment operators
+
+var = 2
+var += 2
+var = var + 2
+var -= 2
+var = var - 2
+var *= 2
+var /= 2
+var **= 2
+var %= 2
+
+Comparison operators
+
+<> == <= >=
+ 
+a <=> b
+a < b  #=> -1
+a > b  #=> 1
+a == b  #=> 0
+
+Logical operators
+
+or ||
+and &&
+not !
+
+Range operators
+
+0..2
+0...2
+
+Ternary operators
+
+сахар
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

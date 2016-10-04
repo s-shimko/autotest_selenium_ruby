@@ -1,0 +1,181 @@
+class Animal
+  def initialize
+    @dog = 'dog'
+    @cat = 'cat'
+    @mouse = 'mouse'
+  end
+end
+
+beast = Animal.new
+puts beast.inspect
+
+
+
+Constants
+
+CONST = 'dsdfsf'
+
+class User
+  CONST = 'dsdfsf'
+end
+
+puts User::CONST
+
+
+Define methods
+
+def method_name(method_arg)
+  method_code
+end
+
+
+Methods - действия над объектом, меняют его состояние
+
+название методов method_name - способ названия snake case
+
+def method_name(number: 100, text: 'text')
+  puts number
+  puts text
+end
+
+def method_name(number:, text:)
+  puts number
+  puts text
+end
+
+def method_name(number, text, *args)  - в args попадают аргументы > 2 массивы
+  puts number
+  puts text
+  ...
+end
+
+def method_name(number, text, **options)  - в options попадают аргументы > 2 hash
+  puts number
+  puts text
+  ...
+end
+
+class Animal  
+  def sound(voice)                 - доступено только как экземпляр класса после создания
+    puts "This bitch do #{voice}"    имеет название instance method
+  end
+end
+
+object = Animal.new
+object.sound('Woof')
+
+class Animal  
+  def self.sound(voice)                 - не доступен как экземпляр класса
+    puts "This bitch do #{voice}"   
+  end
+end
+
+вызывается как: Animal.sound('Woof')
+
+var = lamda do     - lambda преобразовывает блок кода в объект
+  puts 'something'
+end
+
+var.call  - для вызова
+
+
+Code block as an argument
+
+def call_block(&block)  - в переменную передается блок кода
+  block.call
+end
+
+call_block {puts 'something'}
+
+def call_yield
+  yield
+end
+
+call_yield {puts 'something'}
+
+
+def call_yield
+  ary = ['string', 'sss']
+  yield(ary)
+end
+
+call_yield { |var| puts var }
+
+
+Getters(возвращают) and Setters(присваивают) 
+
+class User
+  def first_name   -  getter
+    @first_name
+  end
+end
+
+user = User.new('John', 'Smith')
+puts user.first_name
+
+
+class User
+  def first_name=(name)   - setter
+    @first_name = name
+  end
+end
+
+user.first_name = 'Jack'
+puts user.first_name
+
+
+def create_method(method_name)
+  define_method(method_name.to_sym) do |a|   -  метод создаёт метод - МЕТАПРОГРАММИРОВАНИЕ
+    puts "#{method_name} is defined"
+    puts "#{a} is argument"
+  end
+end
+
+create_method('new')  - надо создать метод
+new('new_a')          - потом его вызвать
+
+
+class User
+  attr_reader :first_name, :last_name   - генерирует геттеры, для каждого свойства создаст метод возвращающий значение данного свойства 
+
+  attr_writer :first_name, :last_name   - генерирует сеттеры, которые будут изменять значения переменных
+  
+  attr_accessor :first_name, :last_name - включает первые два, генерирует и геттеры и сеттеры 
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

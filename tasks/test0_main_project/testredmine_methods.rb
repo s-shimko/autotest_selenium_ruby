@@ -1,4 +1,4 @@
-module TestRedmineMethods
+module TestredmineMethods
 
    def login(login, pass)
     @driver.navigate.to 'http://demo.redmine.org'

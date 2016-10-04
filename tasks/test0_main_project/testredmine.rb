@@ -1,11 +1,13 @@
+require 'test-unit'
 require 'test/unit'
 require 'selenium-webdriver'
+require 'rspec'
 
 require_relative 'testredmine_methods'
 
 
 class TestRedmine < Test::Unit::TestCase
-  include TestRedmineMethods
+  include TestredmineMethods
   include RSpec::Matchers
 
   def setup
@@ -26,7 +28,7 @@ class TestRedmine < Test::Unit::TestCase
 
 #*********************************TEST*********************************************
 
-  def test_registration
+  def user_registration
     registration(@login, '123', '123')
     expected_text_english = 'Your account has been activated. You can now log in.'
     expected_text_russian = 'Ваша учётная запись активирована. Вы можете войти.'
@@ -34,7 +36,7 @@ class TestRedmine < Test::Unit::TestCase
     assert(actual_text.include?(expected_text_english) || actual_text.include?(expected_text_russian))
   end
 
-  def test_change_pass
+  def change_pass_test
     registration(@login, '123', '123')
     change_pass(@pass, @npass)
     logout
@@ -44,7 +46,7 @@ class TestRedmine < Test::Unit::TestCase
     assert_equal(expected_text, actual_text)
   end
 
-  def test_new_project
+  def new_project
     registration(@login, '123', '123')
     logout
     registration(@login2, 'second_user', 'two')
@@ -63,7 +65,7 @@ class TestRedmine < Test::Unit::TestCase
     assert_equal(expected_text, actual_text)
   end
 
-  def test_edit_user_roles
+  def edit_user_roles
     registration(@login, '123', '123')
     logout
     registration(@login2, 'second_user', 'two')
@@ -84,7 +86,7 @@ class TestRedmine < Test::Unit::TestCase
     assert_equal(expected_text, actual_text)
   end
 
-  def test_create_project_version
+  def create_project_version_test
     registration(@login, '123', '123')
     add_new_project
     create_project_version
@@ -93,7 +95,7 @@ class TestRedmine < Test::Unit::TestCase
     assert_equal(expected_text, actual_text)
   end
 
-  def test_create_issues_bug
+  def create_issues_bug
     registration(@login, '123', '123')
     add_new_project
     create_issue(1, 'New_issue_bug')
@@ -103,7 +105,7 @@ class TestRedmine < Test::Unit::TestCase
     assert_equal(expected_text, actual_text)
   end
 
-  def test_create_issues_feature
+  def create_issues_feature
     registration(@login, '123', '123')
     add_new_project
     create_issue(2, 'New_issue_feature')
@@ -113,7 +115,7 @@ class TestRedmine < Test::Unit::TestCase
     assert_equal(expected_text, actual_text)
   end
 
-  def test_create_issues_support
+  def create_issues_support
     registration(@login, '123', '123')
     add_new_project
     create_issue(3, 'New_issue_support')
@@ -121,6 +123,17 @@ class TestRedmine < Test::Unit::TestCase
     expected_text = 'New_issue_support'
     actual_text = @driver.find_element(:css, ".subject a").text
     assert_equal(expected_text, actual_text)
+  end
+
+  def test_all
+    user_registration
+    # change_pass_test
+    # new_project
+    # edit_user_roles
+    # create_project_version_test
+    # create_issues_bug
+    # create_issues_feature
+    # create_issues_support
   end
 
 

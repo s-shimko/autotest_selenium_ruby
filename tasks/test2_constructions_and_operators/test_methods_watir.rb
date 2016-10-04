@@ -1,4 +1,4 @@
-module TestRedmineMethodsWatir
+module TestMethodsWatir
 
   def registration_watir(login, first_name, last_name)
     @browser.goto 'http://demo.redmine.org'

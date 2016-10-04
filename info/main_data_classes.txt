@@ -1,0 +1,122 @@
+'my string'[3]
+'my string'[-2]
+'my string'[2,2]
+'my string'[2..4]
+'my string'[2...4]
+'my string'.capitalize
+'my string'.include?('str')
+'my string'.split('')
+'my string'.to_sym
+'234'.to_i
+'string'.chars{ |char| code (char) } 		цикл позволяет перебрать все символы состовляющие строку
+'string'.each_char { |char| code (char) }	аналог верхнего
+'string'.length
+'string'.size
+
+Symbols
+
+:value
+:param_name.object_id - присваивается только один номер, при повторном вызове тот же номер
+
+'string'.object_id  - выведет номер по которому руби находит объект в памяти компа, при повтороном вызове другой номер
+
+Numbers
+
+Fixnum  - целые числа, дробная часть теряется
+Bignum > 9 digits
+Float - плавающая запятая, из-за проблем с плавающей запятой лучше округлять num.round(3) или использовать BigDecimal
+BigDecimal
+
+Booleans and nil
+
+Псевдопеременные
+TrueClass  true
+FalseClass false
+NilClass   nil
+'Truthy'  - not nil not false
+
+Array - упорядоченная коллекция с номером
+a = [] or a = Array.new
+
+Array methods
+
+array << 3 << 4
+array.map { |el| el.to_s} - выполняет блок кода к каждому объекту массива  == array.map(&:to_s)
+array.map! { |el| el.to_s} - модифицирует исходный массив
+array.count array.size array.length - длина массива
+array.delete('z')
+array.delete_at(5)
+array.delete_if { |el| el > 2 }
+array.drop(2) - удаляет 1ые два 
+array.each { |el| puts el } - выполняет блок кода к каждому объекту массива
+array.each_index { |i| puts i } - перебирает индексы
+array.empty?
+array.index('a')
+array.first
+array.last(2)
+array.include? ('a')
+array.sample - вернуть случайный объект массива
+array.select { |el| el.odd?} - останутся только если блок кода вернет true, нечетные
+
+Hashes
+
+неупорядоченная коллекция
+регулируются ключами(зачастую символы :name) и значениями
+h = {} or  h = Hash.new
+h = {:name => "Mike", :last_name => 'Smith'} - старый способ записи
+h = {name:"Mike", last_name:'Smith'} - новый способ записи
+h.key('Mike') #-> :name
+h[:last_name] #-> 'Smith'
+
+h.each { |key,value| puts "key is #{key}, value is #{value}"}
+h.each_pair { |key,value| puts "key is #{key}, value is #{value}"}
+h.each_key { |key| puts key }
+h.each_value { |value| puts value }
+
+h.has_key?(:name) - цикл обрабатывает ключи 
+h.has_value?('John') - цикл обрабатывает значения
+
+h.keys - все ключи в виде массива
+h.values - все значения в виде массива
+
+h.select { |key, value| value.length > 5 }
+h.delete_if { |key, value| key ==  :email}
+
+
+Ranges
+
+(1..7)
+(-5..-1)
+('a'..'f')
+(3...7) - исключает последний
+(3..7).include?(5)
+(3..7).first
+(3..7).last
+(3..7).each { |i| block }
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
