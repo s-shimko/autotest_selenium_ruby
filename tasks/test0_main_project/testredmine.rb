@@ -28,25 +28,27 @@ class TestRedmine < Test::Unit::TestCase
 
 #*********************************TEST*********************************************
 
-  def user_registration
+  def test_registration
     registration(@login, '123', '123')
     expected_text_english = 'Your account has been activated. You can now log in.'
     expected_text_russian = 'Ваша учётная запись активирована. Вы можете войти.'
     actual_text = @driver.find_element(:id, 'flash_notice').text
-    assert(actual_text.include?(expected_text_english) || actual_text.include?(expected_text_russian))
+    (expect(actual_text).to eql(expected_text_russian)) || (expect(actual_text).to eql(expected_text_english))
+      # assert(actual_text.include?(expected_text_english) || actual_text.include?(expected_text_russian))
   end
 
-  def change_pass_test
+  def test_change_pass_test
     registration(@login, '123', '123')
     change_pass(@pass, @npass)
     logout
     login(@login, @npass)
     expected_text = @login
     actual_text = @driver.find_element(:css, "#loggedas .user").text
-    assert_equal(expected_text, actual_text)
+    expect(actual_text).to eql(expected_text)
+      # assert_equal(expected_text, actual_text)
   end
 
-  def new_project
+  def test_new_project
     registration(@login, '123', '123')
     logout
     registration(@login2, 'second_user', 'two')
@@ -62,10 +64,11 @@ class TestRedmine < Test::Unit::TestCase
 
     expected_text = 'second_user two'
     actual_text = @driver.find_elements(:css, ".name .user")[@index2.to_i].text
-    assert_equal(expected_text, actual_text)
+    expect(actual_text).to eql(expected_text)
+    # assert_equal(expected_text, actual_text)
   end
 
-  def edit_user_roles
+  def test_edit_user_roles
     registration(@login, '123', '123')
     logout
     registration(@login2, 'second_user', 'two')
@@ -83,59 +86,52 @@ class TestRedmine < Test::Unit::TestCase
     @wait.until { @driver.find_elements(:css, ".member span[id*='member']")[@index].displayed? }
     expected_text = 'Reporter'
     actual_text = @driver.find_elements(:css, ".member span[id*='member']")[@index].text
-    assert_equal(expected_text, actual_text)
+    expect(actual_text).to eql(expected_text)
+    # assert_equal(expected_text, actual_text)
   end
 
-  def create_project_version_test
+  def test_create_project_version_test
     registration(@login, '123', '123')
     add_new_project
     create_project_version
     expected_text = 'New_version'
     actual_text = @driver.find_element(:css, ".version .name a").text
-    assert_equal(expected_text, actual_text)
+    expect(actual_text).to eql(expected_text)
+    # assert_equal(expected_text, actual_text)
   end
 
-  def create_issues_bug
+  def test_create_issues_bug
     registration(@login, '123', '123')
     add_new_project
     create_issue(1, 'New_issue_bug')
     @driver.find_element(:class, 'issues').click
     expected_text = 'New_issue_bug'
     actual_text = @driver.find_element(:css, ".subject a").text
-    assert_equal(expected_text, actual_text)
+    expect(actual_text).to eql(expected_text)
+    # assert_equal(expected_text, actual_text)
   end
 
-  def create_issues_feature
+  def test_create_issues_feature
     registration(@login, '123', '123')
     add_new_project
     create_issue(2, 'New_issue_feature')
     @driver.find_element(:class, 'issues').click
     expected_text = 'New_issue_feature'
     actual_text = @driver.find_element(:css, ".subject a").text
-    assert_equal(expected_text, actual_text)
+    expect(actual_text).to eql(expected_text)
+    # assert_equal(expected_text, actual_text)
   end
 
-  def create_issues_support
+  def test_create_issues_support
     registration(@login, '123', '123')
     add_new_project
     create_issue(3, 'New_issue_support')
     @driver.find_element(:class, 'issues').click
     expected_text = 'New_issue_support'
     actual_text = @driver.find_element(:css, ".subject a").text
-    assert_equal(expected_text, actual_text)
+    expect(actual_text).to eql(expected_text)
+    # assert_equal(expected_text, actual_text)
   end
-
-  def test_all
-    user_registration
-    # change_pass_test
-    # new_project
-    # edit_user_roles
-    # create_project_version_test
-    # create_issues_bug
-    # create_issues_feature
-    # create_issues_support
-  end
-
 
   def teardown
     @driver.quit
