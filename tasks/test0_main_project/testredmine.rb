@@ -33,9 +33,7 @@ class TestRedmine < Test::Unit::TestCase
     expected_text_english = 'Your account has been activated. You can now log in.'
     expected_text_russian = 'Ваша учётная запись активирована. Вы можете войти.'
     actual_text = @driver.find_element(:id, 'flash_notice').text
-    (expect(actual_text).to eql(expected_text_russian)) || (expect(actual_text).to eql(expected_text_english))
-      # assert(actual_text.include?(expected_text_english) || actual_text.include?(expected_text_russian))
-  end
+    expect(actual_text).to eq(expected_text_russian).or eq(expected_text_english)  end
 
   def test_change_pass_test
     registration(@login, '123', '123')

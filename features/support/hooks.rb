@@ -1,6 +1,6 @@
 Before do
   @driver = Selenium::WebDriver.for :firefox
-  @wait = Selenium::WebDriver::Wait.new(timeout:10)
+  @wait = Selenium::WebDriver::Wait.new(timeout:5)
 end
 
 After do

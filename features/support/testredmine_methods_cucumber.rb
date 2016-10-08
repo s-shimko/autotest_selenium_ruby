@@ -1,4 +1,4 @@
-module TestredmineMethods
+module TestredmineMethodsCucumber
 
    def login(login, pass)
     @driver.navigate.to 'http://demo.redmine.org'
@@ -7,7 +7,7 @@ module TestredmineMethods
     @wait.until { @driver.find_element(:id, 'username').displayed? }
     @driver.find_element(:id, 'username').send_keys login
     @driver.find_element(:id, 'password').send_keys pass
-    @find.pass_element(:name, 'login').click
+    @driver.find_element(:name, 'login').click
   end
 
   def logout
@@ -15,23 +15,26 @@ module TestredmineMethods
     @driver.find_element(:class, 'logout').click
   end
 
-  def registration(login, first_name, last_name)
+  def registration(login, pass, first_name, last_name)
     @driver.navigate.to 'http://demo.redmine.org'
     @driver.find_element(:class, 'register').click
+    @wait.until {@driver.find_element(:id, 'user_login').displayed?}
     @driver.find_element(:id, 'user_login').send_keys login
-    @driver.find_element(:id, 'user_password').send_keys @pass
-    @driver.find_element(:id, 'user_password_confirmation').send_keys @pass
+    @driver.find_element(:id, 'user_password').send_keys pass
+    @driver.find_element(:id, 'user_password_confirmation').send_keys pass
     @driver.find_element(:id, 'user_firstname').send_keys first_name
     @driver.find_element(:id, 'user_lastname').send_keys last_name
-    @driver.find_element(:id, 'user_mail').send_keys(login + '@dd.dd')
     @driver.find_element(:id, "user_language").click
     @driver.find_element(:css, "option[value*='ru']").click
+    @driver.find_element(:id, 'user_mail').send_keys("#{login}@dd.dd")
     @driver.find_element(:name, 'commit').click
   end
 
   def change_pass(pass, npass)
     @driver.find_element(:class, 'my-account').click
+    @wait.until { @driver.find_element(:class, 'my-account').displayed? }
     @driver.find_element(:class, 'icon-passwd').click
+    @wait.until { @driver.find_element(:id, 'password').displayed? }
     @driver.find_element(:id, 'password').send_keys pass
     @driver.find_element(:id, 'new_password').send_keys npass
     @driver.find_element(:id, 'new_password_confirmation').send_keys npass
@@ -40,7 +43,9 @@ module TestredmineMethods
 
   def add_new_project
     @driver.find_element(:class, 'projects').click
+    @wait.until { @driver.find_element(:class, 'icon-add').displayed? }
     @driver.find_element(:class, 'icon-add').click
+    @wait.until { @driver.find_element(:id, 'project_name').displayed? }
     @driver.find_element(:id, 'project_name').send_keys @project
     @driver.find_element(:id, 'project_identifier').send_keys '007'
     @driver.find_element(:name, 'commit').click
