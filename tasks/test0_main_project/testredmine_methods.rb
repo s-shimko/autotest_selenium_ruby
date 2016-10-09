@@ -4,9 +4,8 @@ module TestredmineMethods
     @driver.navigate.to 'http://demo.redmine.org'
     @wait.until { @driver.find_element(:class, 'login').displayed? }
     @driver.find_element(:class, 'login').click
-    @wait.until { @driver.find_element(:id, 'username').displayed? }
     @driver.find_element(:id, 'username').send_keys login
-    @driver.find_element(:id, 'password').send_keys pass
+    @driver.find_element(:id, 'password').send_keys driver
     @find.pass_element(:name, 'login').click
   end
 
@@ -21,11 +20,11 @@ module TestredmineMethods
     @driver.find_element(:id, 'user_login').send_keys login
     @driver.find_element(:id, 'user_password').send_keys @pass
     @driver.find_element(:id, 'user_password_confirmation').send_keys @pass
+    @driver.find_element(:id, "user_language").click
+    @driver.find_element(:css, "option[value*='ru']").click
     @driver.find_element(:id, 'user_firstname').send_keys first_name
     @driver.find_element(:id, 'user_lastname').send_keys last_name
     @driver.find_element(:id, 'user_mail').send_keys(login + '@dd.dd')
-    @driver.find_element(:id, "user_language").click
-    @driver.find_element(:css, "option[value*='ru']").click
     @driver.find_element(:name, 'commit').click
   end
 
@@ -54,7 +53,6 @@ module TestredmineMethods
     @driver.find_element(:class, "settings").click
     @driver.find_element(:id, 'tab-members').click
     @driver.find_element(:class, 'icon-add').click
-    @wait.until { @driver.find_element(:id, 'principal_search').displayed? }
     @driver.find_element(:id, 'principal_search').send_keys login
     sleep 1
     @wait.until { @driver.find_element(:css, "#principals input[name*='membership']").displayed? }

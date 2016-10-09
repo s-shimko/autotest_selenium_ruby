@@ -5,3 +5,5 @@ gem 'watir-webdriver'
 gem 'faker'
 gem 'rspec'
 gem 'cucumber'
+gem 'page-object'
+

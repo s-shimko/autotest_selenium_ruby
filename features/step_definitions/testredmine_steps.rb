@@ -82,3 +82,6 @@ Then(/^verify that user was added$/) do
   expect(actual_text).to eql(expected_text)
 end
 
+def example a, &b
+  puts a, b
+end

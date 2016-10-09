@@ -1,0 +1,120 @@
+Encapsulation - свойство системы, позволяющее объединить данные и методы, работающие с ними в классе.
+Encapsulation - механизм языка, позволяющий ограничить доступ одних компонентов программы к другим.
+Механизм реализации данного принципа, осуществляется посредством классов и методов.
+
+Polymormphism - свойство системы использовать объекты с одинаковым интерфейсом, без информации о типе и внутренней структуре. 
+Любой объект мог выполнять метод(реализован для каждого объекта по своему) по своему, но важно чтобы он одинаково назывался.
+плюсы:
+- любое количество объектов через одинаковый интерфейс(собака, кошка и тд издают звук)
+для мобильных или веб отличия
+desktop_page.search_for('something')
+mobile_page.search_for('something')
+
+Inheritance - задача обеспечить верную структуру классов, их взаимотношения, организовать код, чтобы он не повторялся
+Позволяет делиться с наследником функциональностью родительского класса 
+
+Mixins(modules) - цели такие же как у наследования
+Помогают подмешивать в классы небольшие наборы функциональностей
+
+Максимально реализовать минимум
+
+#PageObject - module to build page classes
+#It can be included in these classes and then we're able to use all the methods this module provides
+
+Page Object gem
+
+link :my_link, id: 'my_link_id'
+методы генерирутся одной строкой сверху:
+
+my_link - click on the link
+def my_link
+	@browser.find_element(id: 'my_link_id').click
+end
+
+my_link_element - return link element
+def my_link_element
+	@browser.find_element(id: 'my_link_id')
+end
+
+my_link? - check if the link exists on the page
+def my_link?
+	@browser.find_element(id: 'my_link_id').exist?
+end
+
+text_field :login, id: 'user_login'
+login=(user_login)
+login_element
+login?
+
+checkbox :active, id: 'checkbox_id'
+check_active
+uncheck_active
+acive_checked?
+active_element
+active?
+
+#коллекции элементов:
+list_items :articles, class: 'article'     #<li>
+	articles_elements 	# получим метод который ищет коллекцию элементов
+paragraphs :prices, class: 'price'     #<p>
+	prices_elements		# получим метод который ищет коллекцию элементов
+
+
+#Как вызвать:
+
+login_page = LoginPage.new(@browser)
+login_page.login = 'my_login'
+login_page.password = 'asdf1234'
+login_page.submit
+
+products_page = ProductsPage.new(@browser)
+products_page.prices_elements.map(&:text).include? '20.50'
+
+##Wait methods:
+ #For element:
+when_visible
+when_present
+when_not_visible
+when_not_present
+
+login_page.login_element.when_visible.send_keys 'my_login'
+
+ #For page
+wait_until { code_block }
+wait_for_ajax   	#нужно указать в настройках какой javascript фреймворк используется для отправки и обработки аякс запросов
+
+##We can search elements when we need them:
+pade.link_element(id: 'my_link')
+#We even can call these methods from other elements:
+div_element.link_element(id: 'my_link')    #we will search 'my link' inside div_elemnt
+
+
+##PageFactory
+	#Module as well (but we won't include it)
+	#It can provide us more comfortable and descpriptive way to interact with our Web pages	
+
+#Usage
+ page_url 'http://out.site.url'  #in class add this string
+we can open page like this:
+	visit(MyAppPage).call_method
+#Method ON allow us not create class instance in step
+on(MyAppPage).call_method
+
+#What else
+visit(Page) or on(Page) => @current_page
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
