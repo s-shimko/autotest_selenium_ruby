@@ -1,5 +1,5 @@
 Given(/^I'm on the redmine website$/) do
-   # @driver.navigate.to 'http://demo.redmine.org'
+   # @browser.navigate.to 'http://demo.redmine.org'
    visit(HomePage)
 end
 
@@ -11,8 +11,7 @@ When(/^Fill all fields on the register form with valid values$/) do
   # var = RegisterPage.new(@browser)
   login = ('testlogin1' + rand(9999999).to_s)
   pass = '1234'
-  @wait.until {on(RegisterPage).user_login}
-  on(RegisterPage).user_login = login
+  on(RegisterPage).user_login_element.when_visible(10).send_keys login
   on(RegisterPage).user_password = pass
   on(RegisterPage).user_password_confirmation = pass
   on(RegisterPage).user_firstname = "Ivan"

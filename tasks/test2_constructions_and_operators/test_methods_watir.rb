@@ -39,7 +39,7 @@ module TestMethodsWatir
   def login(login, pass)
     @browser.goto 'http://demo.redmine.org'
     # @browser.div(text: 'Ваша учётная запись активирована. Вы можете войти.').wait_until_present(2)
-    # @wait.until { @driver.find_element(:class, 'login').displayed? }
+    # @wait.until { @browser.find_element(:class, 'login').displayed? }
     @browser.element(:class, 'login').click
     @browser.element(:id, 'username').send_keys login
     @browser.element(:id, 'password').send_keys pass

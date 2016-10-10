@@ -12,3 +12,5 @@ require 'page-object/page_factory'
 
 World(RSpec::Matchers) #to make rspec matchers work
 World(PageObject::PageFactory)
+
+$WT = 3

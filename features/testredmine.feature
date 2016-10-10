@@ -8,7 +8,6 @@ Feature: All Redmine tests
   @s1
   Scenario: Test verify possibility to change password
     When click My account link
-    When click Change password link
     When change password
     When click Apply button
     When logout

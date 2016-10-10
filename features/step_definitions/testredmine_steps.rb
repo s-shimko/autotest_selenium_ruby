@@ -25,35 +25,24 @@ When(/^login with first user$/) do
 end
 
 When(/^logout$/) do
-  @driver.navigate.to 'http://demo.redmine.org'
-  @driver.find_element(:class, 'logout').click
+ logout
 end
 
 When(/^click My account link$/) do
-  @wait.until {@driver.find_element(:class, 'my-account').displayed?}
-  @driver.find_element(:class, 'my-account').click
-end
-
-When(/^click Change password link$/) do
-  @wait.until {@driver.find_element(:class, 'icon-passwd').displayed?}
-  @driver.find_element(:class, 'icon-passwd').click
+  on(HomePage).my_account_element.when_visible($WT).click
 end
 
 When(/^change password$/) do
-  @wait.until {@driver.find_element(:id, 'password').displayed?}
-  @driver.find_element(:id, 'password').send_keys @pass
-  @driver.find_element(:id, 'new_password').send_keys @npass
-  @driver.find_element(:id, 'new_password_confirmation').send_keys @npass
+  change_pass(@pass, @npass)
 end
 
 When(/^click Apply button$/) do
-  @driver.find_element(:name, 'commit').click
+  on(ChangePasswordPage).apply_element.when_visible($WT).click
 end
 
 Then(/^Verify that I enter on site with new password$/) do
-  @wait.until { @driver.find_element(:css, "#loggedas .user").displayed? }
-  expected_text = @login
-  actual_text = @driver.find_element(:css, "#loggedas .user").text
+  expected_text = "Logged in as #{@login}"
+  actual_text = on(HomePage).loggedas_element.when_visible($WT).text
   expect(actual_text).to eql(expected_text)
 end
 
@@ -72,13 +61,13 @@ end
 
 Then(/^verify that user was added$/) do
   sleep 1
-  user_list2 = @driver.find_elements(:css, ".name .user")
+  user_list2 = @browser.find_elements(:css, ".name .user")
   sleep 1
   names2 = user_list2.map {|user| user.text}
   @index2 = names2.index('second_user two')
 
   expected_text = 'second_user two'
-  actual_text = @driver.find_elements(:css, ".name .user")[@index2.to_i].text
+  actual_text = @browser.find_elements(:css, ".name .user")[@index2.to_i].text
   expect(actual_text).to eql(expected_text)
 end
 
