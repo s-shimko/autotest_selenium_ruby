@@ -43,20 +43,17 @@ module TestredmineMethodsCucumber
   end
 
   def add_new_user_to_project(login)
-    @browser.find_element(:class, 'projects').click
-    dropDownMenu = @browser.find_element(:id, "project_quick_jump_box")
-    option = Selenium::WebDriver::Support::Select.new(dropDownMenu)
-    option.select_by(:text, @project)
-    @browser.find_element(:class, "settings").click
-    @browser.find_element(:id, 'tab-members').click
-    @browser.find_element(:class, 'icon-add').click
-    @wait.until { @browser.find_element(:id, 'principal_search').displayed? }
-    @browser.find_element(:id, 'principal_search').send_keys login
+    on(HomePage).projects_element.when_visible($WT).click
+    on(ProjectsPage).projects_dropdown_element.when_visible($WT).select @project
+    on(ProjectsPage).settings_element.when_visible($WT).click
+    on(ProjectsPage).members_element.when_visible($WT).click
+    on(ProjectsPage).new_member_element.when_visible($WT).click
+    on(ProjectsPage).principal_search_element.when_visible($WT).send_keys login
     sleep 1
     @wait.until { @browser.find_element(:css, "#principals input[name*='membership']").displayed? }
     @browser.find_element(:css, "#principals input[name*='membership']").click
     @browser.find_element(:css, ".roles-selection input[value='4']").click
-    @browser.find_element(:id, 'member-add-submit').click
+    on(ProjectsPage).add_element.when_visible($WT).click
   end
 
   def edit_user_roles
