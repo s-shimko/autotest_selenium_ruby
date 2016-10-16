@@ -1,5 +1,5 @@
 ##Tasks Main Data Classes
-
+puts "start"
 # 1. Create a method which will take a natural number as an argument and will find a sum of all its digits
 def sum_all_digits(num)
   split_string = num.to_s.split('')
