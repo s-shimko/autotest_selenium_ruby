@@ -68,15 +68,19 @@ end
 # to call namespaces:
 # rake home:get_up
 
-task :cuke do
-  sh 'cucumber -t @s1'
-end
 
-task :regestration do
-  sh 'cucumber -t @reg'
-end
+namespace :main do
+  task :cuke do
+    sh 'cucumber -t @s1'
+  end
 
-task :reg_as_dep => [:regestration] do
-  sh 'cucumber -t @s1'
-end
 
+  task :regestration do
+    sh 'cucumber -t @reg'
+  end
+
+  task :reg_as_dep => [:regestration] do
+    sh 'cucumber -t @s1'
+  end
+
+end
