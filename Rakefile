@@ -70,8 +70,8 @@ end
 
 
 namespace :main do
-  task :cuke do
-    sh 'cucumber -t @s1'
+  task :run_all do
+    sh 'cucumber -t @reg -f junit -o reports/ -f html -o reports/report.html'
   end
 
 
@@ -84,3 +84,5 @@ namespace :main do
   end
 
 end
+
+#cucumber --format junit --out reports/
