@@ -1,0 +1,13 @@
+Чтобы запустить Jenkins используйте:
+# service jenkins start
+
+Чтобы остановить Jenkins используйте:
+# service jenkins stop
+
+Чтобы перезаупстить Jenkins используйте:
+# service jenkins restart
+
+Так же, можно добавить дженкинс в автозагрузку ОС:
+# chkconfig jenkins on
+
+# look for process: ps axu | grep gcalctool

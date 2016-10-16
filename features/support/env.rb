@@ -9,6 +9,7 @@ require 'rspec'
 require 'cucumber'
 require 'page-object'
 require 'page-object/page_factory'
+require 'headless'
 
 World(RSpec::Matchers) #to make rspec matchers work
 World(PageObject::PageFactory)

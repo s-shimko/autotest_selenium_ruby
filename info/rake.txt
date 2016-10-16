@@ -1,0 +1,101 @@
+##Tasks:
+#Default task
+task :default => :get_up
+
+task :get_up do
+   puts 'Getting up...'
+end
+
+##Dependencies
+task :teeth => :get_up do
+  puts 'Cleaning teeth...'
+end
+
+task :exercises => :get_up do
+  puts 'Shake your body!!!'
+end
+
+task :breakfast => [:teeth, :exercises] do
+  puts 'Heaving breakfast...'
+end
+
+task :get_to_work => [:breakfast, :get_in_the_car] do
+  puts 'On my way'
+end
+
+task  :get_in_the_car do
+  puts 'I\'m in and ready to go'
+end
+
+# $ rake get_to_work
+# Getting up...
+# Cleaning teeth...
+# Shake your body!!!
+# Heaving breakfast...
+# I'm in and ready to go
+# On my way
+
+##Descriptions:
+rake -T  # command to get list of all rake tasks with their descriptions
+
+desc 'task to clean teeth'
+task :clean_teeth => :get_up do
+  puts 'Cleaning teeth...'
+end
+
+##Namespaces:
+
+namespace :home do
+
+ task :get_to_work => [:breakfast, :get_in_the_car] do
+    puts 'On my way'
+ end
+
+ task  :get_in_the_car do
+    puts 'I\'m in and ready to go'
+ end
+
+end
+
+namespace :work do
+
+ task :get_to_meeting do
+    puts 'Boring...'
+ end
+
+end
+
+# to call namespaces:
+task :default => 'home:get_up'
+
+rake home:get_up
+
+##Tasks arguments
+
+task :with_args, [:first_arg, :second_arg] do |t, args|
+ puts args.first_arg
+ puts args.second_arg
+end
+
+#rake with_args['my_first','my_second']
+
+##Environment variable
+
+#ENV - constant - all variables here
+
+task :env_arg do
+ puts "My ENV arg is #{ENV['MY_ARG']}"
+end
+
+##Shell
+task :cuke do
+  sh 'cucumber -t @s1'
+end
+
+#rake env_arg MY_ARG = 'my_value'
+
+##for self education:
+#'file' tasks
+#'rule' tasks
+#FileList module
+#FileUtils module
