@@ -89,7 +89,7 @@ task :test do
   sh 'ruby tasks/test1_main_data_classes/test1_main_data_classes.rb -f junit -o reports/ -f html -o reports/report.html'
 end
 
-#cucumber --format junit --out reports/
+#cucumber --format junit --out reports/ dfdf
 # firewall-cmd --zone=public --add-port=8080/tcp --permanent
 # firewall-cmd --zone=public --add-service=http --permanent
 # firewall-cmd --reload
