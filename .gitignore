@@ -8,6 +8,7 @@
 /pkg/
 /spec/reports/
 /tmp/
+/reports/
 
 # Idea files
 .idea*

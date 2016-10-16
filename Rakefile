@@ -86,3 +86,7 @@ namespace :main do
 end
 
 #cucumber --format junit --out reports/
+# firewall-cmd --zone=public --add-port=8080/tcp --permanent
+# firewall-cmd --zone=public --add-service=http --permanent
+# firewall-cmd --reload
+# firewall-cmd --list-all
