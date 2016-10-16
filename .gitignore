@@ -7,7 +7,7 @@
 /doc/
 /pkg/
 /tmp/
-
+/reports/*
 
 # Idea files
 .idea*
