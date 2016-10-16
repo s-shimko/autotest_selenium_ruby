@@ -85,6 +85,10 @@ namespace :main do
 
 end
 
+task :test do
+  sh 'ruby tasks/test1_main_data_classes/test1_main_data_classes.rb '
+end
+
 #cucumber --format junit --out reports/
 # firewall-cmd --zone=public --add-port=8080/tcp --permanent
 # firewall-cmd --zone=public --add-service=http --permanent
