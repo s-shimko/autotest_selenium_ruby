@@ -71,7 +71,7 @@ end
 
 namespace :main do
   task :run_all do
-    sh 'cucumber -t @reg -f junit -o reports/ -f html -o reports/report.html'
+    sh 'cucumber -t @reg -f junit -o report/ -f html -o report/report.html'
   end
 
 
@@ -89,7 +89,7 @@ task :test do
   sh 'ruby tasks/test1_main_data_classes/test1_main_data_classes.rb'
 end
 
-#cucumber --format junit --out reports/
+#cucumber --format junit --out report/
 # firewall-cmd --zone=public --add-port=8080/tcp --permanent
 # firewall-cmd --zone=public --add-service=http --permanent
 # firewall-cmd --reload
