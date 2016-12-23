@@ -13,7 +13,7 @@ class List
   end
 
   def add_cards(board_name, list_name,cards)
-    puts "User added cards: "
+    puts "User2 added cards: "
     puts "---Board: #{board_name}---List: #{list_name}-----"
     cards.each do |card|
       add_card(card)

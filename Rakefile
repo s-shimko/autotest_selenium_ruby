@@ -75,7 +75,7 @@ namespace :main do
   end
 
 
-  task :regestration do
+  task :registration do
     sh 'cucumber -t @reg'
   end
 
@@ -88,6 +88,15 @@ end
 task :test do
   sh 'ruby tasks/test1_main_data_classes/test1_main_data_classes.rb'
 end
+
+task :rspec_test1 do
+  # sh 'cd tasks/test11_rspec'
+  sh 'rspec spec/lib/rspec_task2/rspec_testredmine.rb --format documentation --tag aaa'
+  # sh 'rspec spec/lib/rspec_task2/rspec_testredmine.rb --format documentation --tag ~aaa'
+  # sh 'rspec spec/lib/rspec_task2/rspec_testredmine.rb ---format documentation --out report.txt --tag aaa'
+end
+
+
 
 #cucumber --format junit --out reports/
 # firewall-cmd --zone=public --add-port=8080/tcp --permanent

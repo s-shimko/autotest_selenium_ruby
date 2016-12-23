@@ -10,7 +10,7 @@
 #     comments
 # Create 10 any unit tests for this classes and their methods
 
-# 2.Add a User model to your project and modify all methods which work with user data (email or password)
+# 2.Add a User2 model to your project and modify all methods which work with user data (email or password)
 # to treat users in a right way
 #
 require 'test/unit'

@@ -12,7 +12,7 @@ attr_reader :user_name, :email, :pass
   def login(user_name, email, pass)
     puts "Enter email: #{email}"
     puts "Enter password: #{pass}"
-    puts "User with name #{user_name} is on the Trello!"
+    puts "User2 with name #{user_name} is on the Trello!"
     puts " "
   end
 

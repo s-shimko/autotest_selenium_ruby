@@ -1,4 +1,4 @@
-include TestredmineMethodsCucumber
+include TestredmineMethodsCucumberSecond
 
 Given(/^I'm provide a correct registration$/) do
   @login = ('testlogin1' + rand(9999999).to_s)

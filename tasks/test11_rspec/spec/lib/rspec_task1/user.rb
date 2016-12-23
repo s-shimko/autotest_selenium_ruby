@@ -1,4 +1,5 @@
-require 'faker'
+# require 'faker'
+
 
 class User
 attr_reader :user_name, :email, :pass

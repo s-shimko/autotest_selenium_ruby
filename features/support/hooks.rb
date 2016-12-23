@@ -1,7 +1,7 @@
 Before do
   # @headless = Headless.new
   # @headless.start
-  @browser = Selenium::WebDriver.for :firefox
+  @browser = Selenium::WebDriver.for :chrome
   @wait = Selenium::WebDriver::Wait.new(timeout:5)
 end
 

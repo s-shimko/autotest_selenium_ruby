@@ -2,6 +2,11 @@ require 'watir-webdriver'
 require 'test/unit'
 require 'selenium-webdriver'
 require "watir-webdriver/extensions/alerts"
+require 'rspec/expectations'
+require 'rspec'
+# require 'spec'
+# require 'watir'
+# include RSpec::Matchers
 
 class TestBonusTasks < Test::Unit::TestCase
 
@@ -45,16 +50,12 @@ class TestBonusTasks < Test::Unit::TestCase
 
   def iframe_realisation
     @browser.goto "https://the-internet.herokuapp.com/iframe"
-
-    @browser.element(:text => "File").click
-    sleep 1
-    @browser.element(:text => "New document").click
-    sleep 1
-    @browser.text_field(:id => "tinymce").set 'Watir'
-    sleep 1
-    # @browser.frame(:id => "tinymce").text_field(:id => "tinymce").set "admin"
-    # sleep 1
-
+    editor = @browser.iframe(:id, "mce_0_ifr").element(:id, "tinymce")
+    before_text = editor.text
+    # editor.clear
+    editor.send_keys 'Hello World!'
+    after_text = editor.text
+    assert_not_equal(after_text, before_text)
   end
 
   def key_presses
@@ -114,20 +115,14 @@ class TestBonusTasks < Test::Unit::TestCase
   end
 
   def test_bonustasks
-    # hover
+    hover
     drag_and_drop_realisation
-    # select_list
-    # iframe_realisation
-    # key_presses
-    # jquery_ui_menu
-    # javascript_alerts
-    # multiple_windows
-
-
-    # registration3(@login, "first_name", "last_name")
-    # @browser.button(:name, 'commit').click
-    # @browser.text.include? 'Ваша учётная запись активирована. Вы можете войти.'
-
+    select_list
+    iframe_realisation
+    key_presses
+    jquery_ui_menu
+    javascript_alerts
+    multiple_windows
   end
 
 

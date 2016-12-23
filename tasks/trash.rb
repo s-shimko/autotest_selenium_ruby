@@ -116,7 +116,7 @@ puts "Sum is " + Oven.sum
 #   end
 # end
 #
-# class User
+# class UserTest
 #   attr_reader :first_name, :last_name
 #
 #   attr_writer :first_name, :last_name

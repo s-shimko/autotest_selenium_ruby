@@ -1,0 +1,408 @@
+class User
+  def initialize(options = {})
+    @first_name = options[:first_name]
+    @last_name = options[:last_name]
+    @email = options[:email]
+  end
+
+  def register
+    @registered = true
+  end
+
+  def registered?
+    @registered
+  end
+
+  def active?
+    @active ? @active : @registered
+  end
+
+  def deactivate
+    @active = false
+  end
+end
+
+describe ".new" do
+ it 'aaa' do
+ end
+end
+
+structure:
+|--spec
+   |--spec_helper.rb	
+   |--user_spec.rb	
+
+describe User do
+  describe ".new" do           #to test method new class
+  end
+  describe "#deactivate" do    #to test method instance class user  | example group
+  end 								     | 		
+end
+
+describe User do
+  describe ".new" do           #to test method new class
+  end
+  describe "#deactivate" do    #to test method exempliar class user  | example group
+  end 								     | 		
+end
+
+describe - example group
+it       - example itself
+
+describe ".new" do
+  describe "creates user with valid" do
+	before :all do
+	  @user = User.new([first_name: 'John', last_name: 'Smith', email: 'sdf@df.dd'])  # @user - valid only in current describe
+	end
+
+	it 'first' do
+	  expect(@user.first_name).not_to be_nil
+	end
+
+	it 'second' do
+	  expect(@user.second_name).not_to be_nil
+	end
+
+	it 'email' do
+	  expect(@user.email).not_to be_nil
+	end
+    end
+end
+
+spec_helper.rb
+ require 'rspec'
+include module
+before after hooks
+##############spec_helper.rb#########################
+require 'rspec'
+require 'page-object'
+
+RSpec.configure do |config|
+  config.include PageObject::PageFactory
+  config.before :all do
+  # config.add_formatter Spec::Runner::Formatter::TeamcityFormatter
+    @browser = Selenium::WebDriver.for :chrome
+  end
+  config.after :all do
+    @browser.quit
+  end
+end
+
+before :each do 
+  @var = 10
+end
+
+
+after :each do |example|
+   if example.exception
+     save_screenshot
+  end
+end
+
+around(:example) do |example|
+   puts "around example before"
+   example.run
+   puts "around example before"
+end
+########################################
+ 
+
+
+describe alias
+
+'describe' can be replaced with 'context'
+
+describe 'Home Page' do
+  context 'when opened' do
+	it 'has Logo element visible'
+  end
+end
+
+
+before :all do
+  @user = User.new([first_name: 'John', last_name: 'Smith', email: 'sdf@df.dd'])  
+end
+
+let :user do   #creates method 'user' with values
+  User.new([first_name: 'John', last_name: 'Smith', email: 'sdf@df.dd'])
+end
+
+let! :user do   # implement now
+  User.new([first_name: 'John', last_name: 'Smith', email: 'sdf@df.dd'])
+end
+
+user.mail # not allowed inside hook methods - before, after
+
+
+Helper methods
+1. Inside spec_helper.rb
+
+require 'rspec'
+
+Rspec.configure do |config|
+....
+end
+
+def my_helper   # method in spec_helper
+ puts 'here it is'
+end
+
+2. In the same example group we want call it
+
+describe "example group" do
+ def my_helper   
+  puts 'here it is'
+ end
+
+ it "example itself" do
+  helper_method
+ end
+end
+
+3. In the module
+
+module HelperMethods
+ def helper_method
+  puts 'here it is'
+ end
+end
+
+#we can include inside in spec_helper.rb
+Rspec.configure do |config|
+ configure.include HelperMethods
+end
+
+#we can include inside describe
+describe "creates user with valid" do
+ include HelperMethods
+ it 'test' do
+  expect(helper_method).not_to raise_error
+ end
+end
+
+
+Subject
+
+describe 'first_name' do
+ subject {user.first_name}
+  
+ it 'has first name' do
+  expect(subject).to eql 'John'
+ end
+
+#or
+
+it { is_expected.to eql 'John' }  #subject доступен неявно
+
+end
+
+
+Metadata
+
+describe User do
+ describe ".new" do
+  describe "creates user with valid", :user => true do
+    let(:user) do
+	User.new([first_name: 'John', 
+                  last_name: 'Smith', 
+                  email: 'sdf@df.dd'])  
+	end
+
+	it 'first_name', some_data: 'value' do
+	  expect(@user.first_name).not_to be_nil
+	end
+
+	it 'last_name' do
+	  expect(@user.second_name).not_to be_nil
+	end
+
+	it 'email' do
+	  expect(@user.email).not_to be_nil
+	end
+    end
+  end
+end
+ 
+how to use metadata:
+
+ it 'with metadata', email: 'jlk@lk.comd' do |example|
+  expect(example.metadata[:email]).to eql 'jlk@lk.comd'
+ end
+
+--tags tag_name
+--tags ~tag_name  #exclude tag_name
+
+
+Shared examples
+
+describe User do
+ describe ".new" do
+  describe "with first data set" do
+    let(:user) do
+	User.new([first_name: 'John', 
+                  last_name: 'Smith', 
+                  email: 'sdf@df.dd'])  
+	end
+
+	it 'first_name', some_data: 'value' do
+	  expect(@user.first_name).to eql 'John'
+	end
+
+  describe "with second data set" do
+    let(:user) do
+	User.new([first_name: 'Jack', 
+                  last_name: 'Smith', 
+                  email: 'sdf@df.dd'])  
+	end
+
+	it 'first_name', some_data: 'value' do
+	  expect(@user.first_name).to eql 'Jack'
+	end
+    end
+  end
+end
+
+
+###################################
+Simple shared_examples
+
+describe User do
+ shared_examples 'user with name' do
+  it 'has valid name' do
+   expect(user.name).not_to be_nil
+  end
+end
+
+ describe ".new" do
+  describe "with first data" do
+    let(:user) {User.new(name: 'Jack')}
+    it_behaves_like 'user with name'
+  end
+
+  describe "with second datat" do
+    let(:user) {User.new(name: 'John')}
+    it_behaves_like 'user with name'
+  end
+ end
+end
+
+
+######################################
+Complex shares_examples
+
+shared_examples 'for different data sets' do |user_hash|
+   describe 'user first name' do
+     let(:user) {User.new(user_hash)}
+     subject {user.first_name}
+     it {is_expected.to eql user_hash[:first_name]}
+  end
+end
+
+first_user = {first_name: 'John', ...}
+second_user = {first_name: 'Jack', ...}
+
+include_examples 'for different data sets', first_user 
+include_examples 'for different data sets', second_user 
+
+######################################
+Shared context
+
+shared_context 'just created user' do |user_hash|
+ let(:user) {User.new(user_hash)}
+end
+
+include_context 'just created user', user_hash
+
+######################################
+Shared context and shares_examples
+
+shared_examples 'for different data sets' do |user_hash|
+
+  include_context 'just created user', user_hash
+  
+   describe 'user first name' do
+     subject {user.first_name}
+     it {is_expected.to eql user_hash[:first_name]}
+  end
+end
+
+
+Outputs, Reports
+
+Default
+-format progress
+Other
+--format documentation
+--format documentation --out report.txt
+
+Html report
+--format html --out report.html
+
+For other systems
+--format RspecJunitFormatter --out reports/junit_report.xml
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

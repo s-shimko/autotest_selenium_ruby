@@ -7,7 +7,7 @@ class Board
 
   def create_list(list_name)
     puts ""
-    puts "User added list #{list_name} to board #{@board_name}"
+    puts "User2 added list #{list_name} to board #{@board_name}"
   end
 
 end
